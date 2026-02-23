@@ -15,7 +15,7 @@ export default function Hero() {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 snap-section" aria-label="Hero section">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8" aria-label="Hero section">
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
