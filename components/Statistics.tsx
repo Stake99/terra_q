@@ -3,6 +3,7 @@
 import { motion, useInView, useMotionValue, useTransform, animate } from 'framer-motion';
 import { TrendingUp, Users, Calendar, MapPin } from 'lucide-react';
 import { useRef, useEffect } from 'react';
+import Image from 'next/image';
 import AnimatedIcon from './AnimatedIcon';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { Statistic } from '@/lib/types';
@@ -85,57 +86,53 @@ export default function Statistics() {
   return (
     <section 
       id="statistics" 
-      className="relative min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 snap-section overflow-hidden"
+      className="relative min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 snap-section overflow-hidden flex items-center"
       ref={ref}
       aria-labelledby="statistics-heading"
     >
-      {/* Mineral-inspired gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-mining-primary to-gray-800">
-        {/* Animated crystalline shapes */}
-        <motion.div
-          className="absolute top-0 left-1/4 w-72 h-72 bg-mining-secondary/10 rounded-full blur-3xl"
-          animate={{
-            x: [0, 50, 0],
-            y: [0, 30, 0],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/background2.png"
+          alt="Minerals background"
+          fill
+          className="object-cover"
+          quality={90}
         />
-        <motion.div
-          className="absolute bottom-0 right-1/4 w-96 h-96 bg-mining-accent/5 rounded-full blur-3xl"
-          animate={{
-            x: [0, -30, 0],
-            y: [0, -50, 0],
-            scale: [1.1, 1, 1.1],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        
-        {/* Geometric pattern overlay */}
-        <div className="absolute inset-0 opacity-5">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="stats-pattern" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
-                <circle cx="40" cy="40" r="2" fill="#E63946" />
-                <circle cx="0" cy="0" r="2" fill="#C0C0C0" />
-                <circle cx="80" cy="80" r="2" fill="#E63946" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#stats-pattern)" />
-          </svg>
-        </div>
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/75" />
       </div>
 
+      {/* Animated crystalline shapes */}
       <motion.div
-        className="relative z-10 max-w-7xl mx-auto"
+        className="absolute top-0 left-1/4 w-72 h-72 bg-mining-secondary/10 rounded-full blur-3xl z-10"
+        animate={{
+          x: [0, 50, 0],
+          y: [0, 30, 0],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      <motion.div
+        className="absolute bottom-0 right-1/4 w-96 h-96 bg-mining-accent/5 rounded-full blur-3xl z-10"
+        animate={{
+          x: [0, -30, 0],
+          y: [0, -50, 0],
+          scale: [1.1, 1, 1.1],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+
+      <motion.div
+        className="relative z-20 max-w-7xl mx-auto w-full"
         variants={staggerContainer}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}

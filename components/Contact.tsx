@@ -3,6 +3,7 @@
 import { motion, useInView } from 'framer-motion';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { useRef } from 'react';
+import Image from 'next/image';
 import AnimatedIcon from './AnimatedIcon';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { ContactMethod } from '@/lib/types';
@@ -40,21 +41,39 @@ export default function Contact() {
   return (
     <section 
       id="contact" 
-      className="relative min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 snap-section overflow-hidden"
+      className="relative min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 snap-section overflow-hidden flex items-center"
       ref={ref}
       aria-labelledby="contact-heading"
     >
-      {/* Subtle background pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 2px 2px, #E63946 1px, transparent 0)`
-,
-          backgroundSize: '40px 40px'
-        }} />
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/background.png"
+          alt="Minerals background"
+          fill
+          className="object-cover"
+          quality={90}
+        />
+        {/* Light overlay for better contrast with dark text */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/85 via-white/80 to-white/85" />
       </div>
 
+      {/* Subtle animated accents */}
       <motion.div
-        className="relative z-10 max-w-7xl mx-auto"
+        className="absolute top-20 right-20 w-64 h-64 bg-mining-secondary/5 rounded-full blur-3xl z-10"
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+
+      <motion.div
+        className="relative z-20 max-w-7xl mx-auto w-full"
         variants={staggerContainer}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}

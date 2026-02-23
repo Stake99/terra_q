@@ -1,7 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Database } from 'lucide-react';
 import Image from 'next/image';
+import AnimatedIcon from './AnimatedIcon';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 
 export default function Hero() {
@@ -14,50 +16,48 @@ export default function Hero() {
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 snap-section" aria-label="Hero section">
-      {/* Mineral-inspired background with geometric patterns */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-mining-primary to-gray-800">
-        {/* Crystalline pattern overlay */}
-        <div className="absolute inset-0 opacity-10">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="mineral-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-                <polygon points="50,0 100,25 100,75 50,100 0,75 0,25" fill="none" stroke="#E63946" strokeWidth="0.5" opacity="0.3"/>
-                <polygon points="50,20 80,35 80,65 50,80 20,65 20,35" fill="none" stroke="#C0C0C0" strokeWidth="0.5" opacity="0.2"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#mineral-pattern)" />
-          </svg>
-        </div>
-        
-        {/* Animated red accent shapes */}
-        <motion.div
-          className="absolute top-20 right-20 w-64 h-64 bg-mining-secondary/5 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/background.png"
+          alt="Mining background"
+          fill
+          className="object-cover"
+          priority
+          quality={90}
         />
-        <motion.div
-          className="absolute bottom-20 left-20 w-96 h-96 bg-mining-secondary/5 rounded-full blur-3xl"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.5, 0.3, 0.5],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
       </div>
+      
+      {/* Animated red accent shapes */}
+      <motion.div
+        className="absolute top-20 right-20 w-64 h-64 bg-mining-secondary/10 rounded-full blur-3xl z-10"
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      <motion.div
+        className="absolute bottom-20 left-20 w-96 h-96 bg-mining-secondary/10 rounded-full blur-3xl z-10"
+        animate={{
+          scale: [1.2, 1, 1.2],
+          opacity: [0.5, 0.3, 0.5],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
 
       <motion.div
-        className="relative z-10 text-center max-w-4xl w-full"
+        className="relative z-20 text-center max-w-4xl w-full"
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
@@ -65,24 +65,25 @@ export default function Hero() {
         <motion.div 
           className="mb-6 sm:mb-8 flex justify-center"
           variants={fadeInUp}
+          aria-hidden="true"
         >
-          <motion.div 
-            className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48"
+          <motion.div
             animate={{
               y: [0, -10, 0],
+              rotate: [0, 5, -5, 0],
             }}
             transition={{
-              duration: 3,
+              duration: 4,
               repeat: Infinity,
               ease: "easeInOut"
             }}
           >
-            <Image
-              src="/logo.jpeg"
-              alt="TerraQ Logo"
-              fill
-              className="object-contain drop-shadow-2xl"
-              priority
+            <AnimatedIcon 
+              icon={Database} 
+              animation="pulse" 
+              size={96} 
+              className="text-mining-secondary w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 drop-shadow-2xl"
+              ariaLabel="Geo-data management icon"
             />
           </motion.div>
         </motion.div>

@@ -40,10 +40,21 @@ export default function Footer() {
           href="https://www.terraq.co.za" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="text-sm text-mining-secondary hover:text-red-400 transition-colors inline-block hover:scale-105 transform duration-200"
+          className="text-sm text-mining-secondary hover:text-red-400 transition-colors inline-block hover:scale-105 transform duration-200 mb-4"
         >
           www.terraq.co.za
         </a>
+        <p className="text-xs text-gray-500 mt-4">
+          Developed by{' '}
+          <a 
+            href="https://smartmacmane.co.za/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-mining-accent hover:text-mining-secondary transition-colors underline"
+          >
+            Smart Macmane
+          </a>
+        </p>
       </div>
     </footer>
   );
