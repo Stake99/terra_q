@@ -25,12 +25,12 @@
   }
   
   body {
-    font-family: var(--font-architects), cursive, system-ui;
+    font-family: var(--font-montserrat), system-ui, sans-serif;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-architects), cursive, system-ui;
-    font-weight: 400;
+    font-family: var(--font-montserrat), system-ui, sans-serif;
+    font-weight: 700;
   }
   
   /* Disable animations for users who prefer reduced motion */

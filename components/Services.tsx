@@ -1,8 +1,9 @@
 'use client';
 
 import { motion, useInView } from 'framer-motion';
-import { Drill, Truck, HardHat, Gem, Factory, Shield } from 'lucide-react';
+import { HardHat, Gem, Factory, Shield } from 'lucide-react';
 import { useRef } from 'react';
+import Image from 'next/image';
 import AnimatedIcon from './AnimatedIcon';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 import { Service } from '@/lib/types';
@@ -45,16 +46,21 @@ export default function Services() {
       ref={ref}
       aria-labelledby="services-heading"
     >
-      {/* Subtle mineral texture background */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `repeating-linear-gradient(45deg, #E63946 0px, #E63946 1px, transparent 1px, transparent 20px),
-                           repeating-linear-gradient(-45deg, #C0C0C0 0px, #C0C0C0 1px, transparent 1px, transparent 20px)`
-        }} />
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/background2.png"
+          alt="Geological background"
+          fill
+          className="object-cover"
+          quality={85}
+        />
+        {/* Light overlay for clean look */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/85 to-white/90" />
       </div>
 
       <motion.div
-        className="relative z-10 max-w-7xl mx-auto"
+        className="relative z-20 max-w-7xl mx-auto w-full"
         variants={staggerContainer}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Architects_Daughter } from 'next/font/google';
+import { Montserrat } from 'next/font/google';
 import "./globals.css";
 import { MotionConfigProvider } from "@/components/MotionConfigProvider";
 import StructuredData from "@/components/StructuredData";
 
-const architectsDaughter = Architects_Daughter({ 
-  weight: '400',
+const montserrat = Montserrat({ 
+  weight: ['400', '500', '600', '700', '800'],
   subsets: ['latin'],
-  variable: '--font-architects',
+  variable: '--font-montserrat',
   display: 'swap',
 });
 
@@ -88,7 +88,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/logo.jpeg" />
         <StructuredData />
       </head>
-      <body className={`${architectsDaughter.variable} antialiased`}>
+      <body className={`${montserrat.variable} antialiased`}>
         <MotionConfigProvider>
           {children}
         </MotionConfigProvider>

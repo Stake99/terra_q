@@ -77,7 +77,7 @@ export default function Navigation() {
                 priority
               />
             </div>
-            <span className="text-white font-heading text-lg sm:text-xl">TerraQ</span>
+            <span className="text-white font-bold font-heading text-lg sm:text-xl">TerraQ</span>
           </motion.div>
           <ul className="flex justify-center space-x-4 sm:space-x-6 md:space-x-8 overflow-x-auto flex-1" role="menubar">
           {navLinks.map((link) => (

@@ -9,8 +9,8 @@ const config: Config = {
         'mining-accent': '#C0C0C0',     // Silver/light gray from logo
       },
       fontFamily: {
-        sans: ['var(--font-architects)', 'cursive', 'system-ui'],
-        heading: ['var(--font-architects)', 'cursive', 'system-ui'],
+        sans: ['var(--font-montserrat)', 'system-ui', 'sans-serif'],
+        heading: ['var(--font-montserrat)', 'system-ui', 'sans-serif'],
       },
       animation: {
         'float': 'float 3s ease-in-out infinite',

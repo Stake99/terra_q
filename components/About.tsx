@@ -3,6 +3,7 @@
 import { motion, useInView } from 'framer-motion';
 import { Target, Users, Leaf, Award, TrendingUp, Heart } from 'lucide-react';
 import { useRef } from 'react';
+import Image from 'next/image';
 import AnimatedIcon from './AnimatedIcon';
 import { fadeInUp, staggerContainer } from '@/lib/animations';
 
@@ -59,12 +60,25 @@ export default function About() {
   return (
     <section 
       id="about" 
-      className="min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-white"
+      className="relative min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
       ref={ref}
       aria-labelledby="about-heading"
     >
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/WhatsApp Image 2026-02-18 at 18.05.54.jpeg"
+          alt="Mining operations background"
+          fill
+          className="object-cover"
+          quality={85}
+        />
+        {/* Light overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/92 via-white/88 to-white/92" />
+      </div>
+
       <motion.div
-        className="max-w-7xl mx-auto"
+        className="relative z-10 max-w-7xl mx-auto"
         variants={staggerContainer}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
