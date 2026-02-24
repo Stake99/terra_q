@@ -29,11 +29,15 @@ export default function Navigation() {
     if (!mobileMenuOpen && pendingScroll) {
       const targetSection = document.getElementById(pendingScroll);
       if (targetSection) {
-        targetSection.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start',
-          inline: 'nearest'
-        });
+        setTimeout(() => {
+          const navHeight = 80;
+          const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - navHeight;
+          
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }, 350);
       }
       setPendingScroll(null);
     }
@@ -74,17 +78,17 @@ export default function Navigation() {
     e.stopPropagation();
     
     if (mobileMenuOpen) {
-      // On mobile: close menu and set pending scroll
       setPendingScroll(targetId);
       setMobileMenuOpen(false);
     } else {
-      // On desktop: scroll immediately
       const targetSection = document.getElementById(targetId);
       if (targetSection) {
-        targetSection.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start',
-          inline: 'nearest'
+        const navHeight = 80;
+        const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - navHeight;
+        
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
         });
       }
     }
