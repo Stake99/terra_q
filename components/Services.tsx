@@ -42,7 +42,7 @@ export default function Services() {
   return (
     <section 
       id="services" 
-      className="relative min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 overflow-hidden flex items-center"
+      className="relative min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden flex items-center snap-section scroll-mt-20"
       ref={ref}
       aria-labelledby="services-heading"
     >

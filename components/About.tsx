@@ -60,7 +60,7 @@ export default function About() {
   return (
     <section 
       id="about" 
-      className="relative min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
+      className="relative min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden snap-section scroll-mt-20"
       ref={ref}
       aria-labelledby="about-heading"
     >

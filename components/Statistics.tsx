@@ -86,7 +86,7 @@ export default function Statistics() {
   return (
     <section 
       id="statistics" 
-      className="relative min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden flex items-center"
+      className="relative min-h-screen py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden flex items-center scroll-mt-20"
       ref={ref}
       aria-labelledby="statistics-heading"
     >
