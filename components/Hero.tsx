@@ -99,14 +99,22 @@ export default function Hero() {
           className="text-lg sm:text-xl md:text-2xl font-heading text-mining-accent mb-6 sm:mb-8 px-4"
           variants={fadeInUp}
         >
-          Intelligence Beneath the Surface.
+          Geo-Data Intelligence & Digital Earth Systems
+        </motion.p>
+
+        <motion.p 
+          className="text-xl sm:text-2xl md:text-3xl font-semibold text-white mb-4 sm:mb-6 px-4"
+          variants={fadeInUp}
+        >
+          "From Field Data to Intelligent Decisions"
         </motion.p>
 
         <motion.p 
           className="text-base sm:text-lg text-gray-300 mb-8 sm:mb-10 px-4 max-w-3xl mx-auto"
           variants={fadeInUp}
         >
-          South African geo-data management and digital mining solutions company helping exploration and mining organisations secure, structure, and manage geological data effectively.
+          TerraQ integrates geology, geotechnical engineering, and data intelligence to deliver smarter, 
+          safer, and more efficient mining and environmental solutions.
         </motion.p>
 
         <motion.button

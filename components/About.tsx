@@ -95,9 +95,10 @@ export default function About() {
           className="text-lg sm:text-xl text-gray-700 text-center mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-4"
           variants={fadeInUp}
         >
-          TerraQ operates at the intersection of geology, data governance, and digital technology, 
-          delivering practical, scalable solutions that improve data integrity, accessibility, and 
-          decision-making across the mining value chain.
+          TerraQ is a geoscience and digital solutions company focused on delivering integrated geological, 
+          geotechnical, and data-driven services to the mining and environmental sectors. We bridge the gap 
+          between field data and intelligent decision-making through structured data systems, analytics, and 
+          cloud-based platforms.
         </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-12 sm:mb-16">
@@ -107,8 +108,8 @@ export default function About() {
           >
             <h3 className="text-xl sm:text-2xl font-semibold text-mining-secondary mb-4">Our Vision</h3>
             <p className="text-gray-700 leading-relaxed">
-              To architect secure, scalable geo-data systems that unlock the full potential of geological 
-              information through intelligent platforms and digital innovation.
+              To become a leading geo-data intelligence company delivering scalable digital solutions for 
+              the mining and environmental industries across Africa.
             </p>
           </motion.div>
 
@@ -116,13 +117,13 @@ export default function About() {
             className="bg-gray-50 rounded-lg p-6 sm:p-8 border border-gray-200"
             variants={fadeInUp}
           >
-            <h3 className="text-xl sm:text-2xl font-semibold text-mining-secondary mb-4">Our Mission</h3>
+            <h3 className="text-xl sm:text-2xl font-semibold text-mining-secondary mb-4">Why Choose TerraQ</h3>
             <ul className="text-gray-700 leading-relaxed space-y-2">
-              <li>• Geology-led digital solutions aligned with real industry workflows</li>
-              <li>• Secure, structured data environments built on best-practice governance</li>
-              <li>• Reduced data risk and improved data accessibility</li>
-              <li>• Scalable digital foundations prepared for future analytics and AI integration</li>
-              <li>• Local expertise with global industry standards</li>
+              <li>• Integrated geological and digital expertise</li>
+              <li>• Field-to-cloud data solutions</li>
+              <li>• Secure, scalable, and compliant systems</li>
+              <li>• Tailored to mining and environmental workflows</li>
+              <li>• Africa-focused with global standards</li>
             </ul>
           </motion.div>
         </div>
