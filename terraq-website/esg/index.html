@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TerraQ ESG</title>
+<meta name="description" content="TerraQ ESG interactive demo: disclosures traced through licence conditions to evidence, on a fictional mine site.">
+<link rel="icon" href="../terraq-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>html,body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<style>
+/* Layout: navy app shell with the TerraQ lockup, a photo hero carrying the headline numbers, then a light working area. The assurance chain stays on a dark instrument panel. */
+:root{
+  --navy:#101C2C; --navy-2:#16263B; --navy-3:#1F3350; --line-d:rgba(255,255,255,.12);
+  --red:#E3172F; --red-deep:#B30F23;
+  --paper:#EEF1F5; --card:#FFFFFF; --ink:#101C2C; --ink-2:#4A5568; --ink-3:#7D8796; --rule:#DFE4EA; --row:#F6F8FA;
+  --ok:#2FB574; --ok-ink:#16754A; --ok-bg:#E3F5EC;
+  --part:#F0A92E; --part-ink:#8A5A07; --part-bg:#FDF1DC;
+  --miss:#FF4D5E; --miss-ink:#B3132B; --miss-bg:#FDE6E9;
+  --gap:#98A2B3; --gap-ink:#3B4555; --gap-bg:#ECEFF3;
+  --sky:#5AB4F0;
+  --f-head:"Montserrat","Segoe UI",system-ui,sans-serif;
+  --f-body:"Archivo","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink-2);font-family:var(--f-body);font-size:15px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--navy)}
+img{max-width:100%;display:block}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.wrap{max-width:1280px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--f-mono)}
+h1,h2,h3{font-family:var(--f-head);color:var(--ink);margin:0;letter-spacing:-.02em;text-wrap:balance}
+.eyebrow{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+
+/* App bar */
+.appbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--navy);color:#fff;box-shadow:0 1px 0 var(--line-d)}
+.appbar .wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding-block:12px}
+.lockup{display:flex;align-items:center;gap:12px;text-decoration:none}
+.lockup img{height:34px;width:auto}
+.lockup .prod{font-family:var(--f-head);font-weight:900;font-size:1.05rem;color:#fff;background:var(--red);padding:3px 9px;border-radius:6px;letter-spacing:.02em}
+.ctx{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.ctx span{font-family:var(--f-mono);font-size:.72rem;color:rgba(255,255,255,.65);background:rgba(255,255,255,.07);border:1px solid var(--line-d);padding:6px 11px;border-radius:999px;white-space:nowrap}
+.ctx b{color:#fff;font-weight:500}
+.live{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ok);margin-right:6px;box-shadow:0 0 0 0 rgba(47,181,116,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 7px rgba(47,181,116,0)}100%{box-shadow:0 0 0 0 rgba(47,181,116,0)}}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--navy-3);color:#fff;display:grid;place-items:center;font-family:var(--f-head);font-weight:800;font-size:.78rem;border:1px solid var(--line-d)}
+
+/* Hero */
+.hero{position:relative;isolation:isolate;color:#fff;overflow:hidden}
+.hero .bg{position:absolute;inset:0;z-index:-2}
+.hero .bg img{width:100%;height:100%;object-fit:cover;object-position:50% 60%}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(10,18,30,.95) 0%,rgba(10,18,30,.8) 45%,rgba(10,18,30,.45) 100%)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:32px;align-items:end;padding-block:44px 30px}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}}
+.hero .eyebrow{color:rgba(255,255,255,.7)}
+.hero h1{color:#fff;font-size:clamp(1.7rem,3.4vw,2.6rem);font-weight:800;line-height:1.12;margin-top:10px;max-width:24ch}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero .sub{margin-top:12px;color:rgba(255,255,255,.78);max-width:52ch}
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.kpi{background:rgba(16,28,44,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:16px 18px;min-width:0}
+.kpi .n{font-family:var(--f-head);font-weight:900;font-size:2.4rem;line-height:1;color:#fff;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.kpi .n small{font-size:1.1rem;font-weight:700;color:rgba(255,255,255,.7)}
+.kpi .l{margin-top:6px;font-size:.86rem;color:rgba(255,255,255,.78)}
+.kpi.alert{border-color:rgba(255,77,94,.55);background:rgba(120,15,30,.45)}
+.ring{display:flex;align-items:center;gap:14px}
+.ring svg{width:64px;height:64px;flex:none}
+
+/* Tabs */
+.tabs-bar{background:var(--navy-2);position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:30}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.tab{background:transparent;border:1px solid transparent;color:rgba(255,255,255,.7);font-family:var(--f-head);font-weight:700;font-size:.88rem;padding:9px 16px;border-radius:999px;white-space:nowrap;display:inline-flex;align-items:center;gap:8px}
+.tab:hover{color:#fff;background:rgba(255,255,255,.07)}
+.tab[aria-selected="true"]{background:#fff;color:var(--navy)}
+.tab .ct{font-family:var(--f-mono);font-size:.68rem;font-weight:500;background:var(--red);color:#fff;border-radius:999px;padding:1px 7px}
+
+main{padding-block:28px 70px}
+.view{display:grid;gap:22px}
+.view[hidden]{display:none}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:22px;min-width:0}
+.card-h{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 20px;margin-bottom:16px}
+.card-h h2{font-size:1.25rem;font-weight:800}
+.card-h p{font-size:.88rem;color:var(--ink-3)}
+
+/* Chain panel */
+.chain{background:var(--navy);border-radius:18px;color:#fff;overflow:hidden;border:1px solid var(--navy-3)}
+.chain-h{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 20px;align-items:flex-end;padding:20px 22px 6px}
+.chain-h h2{color:#fff;font-size:1.25rem;font-weight:800}
+.chain-h p{color:rgba(255,255,255,.6);font-size:.86rem}
+.btn-ghost{background:rgba(255,255,255,.08);border:1px solid var(--line-d);color:#fff;font-family:var(--f-head);font-weight:700;font-size:.8rem;padding:8px 14px;border-radius:999px}
+.btn-ghost:hover{background:rgba(255,255,255,.16)}
+.btn-ghost[disabled]{opacity:.35;cursor:default}
+.svgwrap{overflow-x:auto;padding:4px 10px 0}
+#chainSvg{width:100%;min-width:760px;height:auto;display:block}
+#chainSvg .node{cursor:pointer}
+#chainSvg .node:hover rect{filter:brightness(1.6)}
+#chainSvg .flow{animation:flow 1.4s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-18}}
+.readout{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;justify-content:space-between;background:rgba(255,255,255,.04);border-top:1px solid var(--line-d);padding:14px 22px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-family:var(--f-mono);font-size:.72rem;color:rgba(255,255,255,.7)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend svg{width:26px;height:6px}
+#readout{font-size:.9rem;color:#fff;max-width:70ch}
+#readout b{font-family:var(--f-mono);font-weight:500}
+.stack{display:none;flex-direction:column;gap:8px;padding:6px 16px 16px}
+.stack button{background:var(--navy-2);border:1px solid var(--line-d);border-left:4px solid var(--c);color:#fff;text-align:left;padding:12px 14px;border-radius:10px;display:grid;gap:2px}
+.stack button[aria-pressed="true"]{background:var(--navy-3)}
+.stack .c{font-family:var(--f-mono);font-size:.72rem;color:rgba(255,255,255,.65)}
+.stack .s{font-size:.82rem;color:rgba(255,255,255,.75)}
+@media (max-width:780px){.svgwrap{display:none}.stack{display:flex}}
+
+/* Tiles */
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media (max-width:1000px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tile{background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:18px;position:relative;overflow:hidden;text-align:left;transition:transform .15s,box-shadow .15s}
+.tile:hover{transform:translateY(-3px);box-shadow:0 14px 30px -18px rgba(16,28,44,.45)}
+.tile::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--c)}
+.tile .n{font-family:var(--f-head);font-weight:900;font-size:2.3rem;color:var(--ink);line-height:1;letter-spacing:-.03em}
+.tile .l{font-family:var(--f-head);font-weight:700;color:var(--ink);margin-top:6px}
+.tile .note{font-family:var(--f-mono);font-size:.72rem;color:var(--ink-3);margin-top:4px}
+.tile .go{position:absolute;right:14px;top:14px;font-family:var(--f-mono);font-size:.68rem;color:var(--ink-3)}
+
+/* Disclosure cards */
+.discs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:1000px){.discs{grid-template-columns:1fr}}
+.disc{border:1px solid var(--rule);border-radius:14px;padding:16px;display:grid;gap:8px;background:var(--card);text-align:left;transition:border-color .15s}
+.disc:hover{border-color:var(--ink-3)}
+.disc .top{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.code{font-family:var(--f-mono);font-size:.74rem;font-weight:600;color:var(--red)}
+.disc .nm{font-family:var(--f-head);font-weight:700;color:var(--ink)}
+.disc .val{font-family:var(--f-head);font-weight:900;font-size:1.5rem;color:var(--ink);letter-spacing:-.02em;white-space:nowrap}
+.disc .val small{font-size:.8rem;font-weight:600;color:var(--ink-3);margin-left:4px}
+.bar{height:6px;border-radius:99px;background:var(--rule);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:var(--c)}
+.src{font-family:var(--f-mono);font-size:.72rem;color:var(--ink-3)}
+.state{font-family:var(--f-mono);font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--bg);color:var(--fg);white-space:nowrap}
+
+/* Filters + tables */
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--card);border:1.5px solid var(--rule);color:var(--ink);font-family:var(--f-head);font-weight:700;font-size:.82rem;padding:7px 14px;border-radius:999px;display:inline-flex;gap:8px;align-items:center}
+.chip:hover{border-color:var(--ink-3)}
+.chip[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.chip .k{font-family:var(--f-mono);font-size:.7rem;opacity:.7}
+.tbl{overflow-x:auto;border:1px solid var(--rule);border-radius:14px;background:var(--card)}
+table{width:100%;border-collapse:collapse;min-width:900px;font-size:.9rem}
+th{font-family:var(--f-mono);font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);text-align:left;padding:12px 14px;border-bottom:1px solid var(--rule);background:var(--row);white-space:nowrap}
+td{padding:13px 14px;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:0}
+tbody tr.click{cursor:pointer}
+tbody tr.click:hover td{background:var(--row)}
+td b{color:var(--ink);font-weight:600}
+td .sub{display:block;font-family:var(--f-mono);font-size:.72rem;color:var(--ink-3)}
+.short{color:var(--miss-ink);font-weight:600}
+.btn-red{background:var(--red);color:#fff;border:0;font-family:var(--f-head);font-weight:700;font-size:.88rem;padding:11px 20px;border-radius:999px;box-shadow:0 10px 24px -12px rgba(227,23,47,.8)}
+.btn-red:hover{background:var(--red-deep)}
+.btn-line{background:var(--card);color:var(--ink);border:1.5px solid var(--rule);font-family:var(--f-head);font-weight:700;font-size:.82rem;padding:8px 14px;border-radius:999px}
+.btn-line:hover{border-color:var(--ink)}
+.fw{display:grid;gap:12px}
+.fwline{display:grid;grid-template-columns:150px minmax(0,1fr) 150px 220px;gap:16px;align-items:center;padding:12px 0;border-top:1px solid var(--rule)}
+.fwline:first-child{border-top:0}
+@media (max-width:760px){.fwline{grid-template-columns:1fr 1fr}}
+
+/* Drawer */
+.scrim{position:fixed;inset:0;background:rgba(6,10,18,.55);backdrop-filter:blur(3px);z-index:70;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(540px,100%);background:var(--card);z-index:80;transform:translateX(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;box-shadow:-30px 0 60px -30px rgba(0,0,0,.5);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px)}
+.drawer.open{transform:none}
+.drawer .dh{background:var(--navy);color:#fff;padding:20px 24px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.drawer .dh h3{color:#fff;font-size:1.7rem;font-weight:900}
+.drawer .dh .eyebrow{color:rgba(255,255,255,.6)}
+.drawer .db{padding:22px 24px;overflow-y:auto;display:grid;gap:20px;align-content:start}
+.dmeta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:520px){.dmeta{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.dmeta div{background:var(--row);border-radius:10px;padding:10px}
+.dmeta dt{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.dmeta dd{margin:3px 0 0;color:var(--ink);font-weight:600;font-size:.88rem}
+blockquote{margin:0;background:var(--row);border-left:3px solid var(--navy);border-radius:0 10px 10px 0;padding:14px 16px;color:var(--ink);font-size:.92rem}
+.cite{font-family:var(--f-mono);font-size:.72rem;color:var(--ink-3);margin-top:6px}
+.ev{border:1px solid var(--rule);border-left:4px solid var(--c);border-radius:10px;padding:11px 14px}
+.ev b{color:var(--ink);display:block}
+.ev span{font-family:var(--f-mono);font-size:.72rem;color:var(--ink-3)}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--navy);color:#fff;padding:12px 18px;border-radius:999px;font-size:.88rem;z-index:90;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;max-width:calc(100% - 40px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;margin-top:30px;padding-top:16px;border-top:1px solid var(--rule);font-family:var(--f-mono);font-size:.72rem;color:var(--ink-3)}
+
+@media (max-width:780px){
+  .appbar{position:static}.ctx span:not(:first-child){display:none}.ctx{order:3;width:100%;margin-left:0}.avatar{margin-left:auto}
+  .tabs-bar{top:env(safe-area-inset-top,0px)}
+}
+@media (max-width:520px){.kpis{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="appbar">
+  <div class="wrap">
+    <a class="lockup" href="#overview" aria-label="TerraQ ESG"><img src="terraq-logo.png" alt="TerraQ"><span class="prod">ESG</span></a>
+    <div class="ctx">
+      <span>Site <b>Sefako Opencast · Limpopo</b></span>
+      <span>Period <b>FY2026 · Q3</b></span>
+      <span><i class="live"></i>Synced <b>19 Aug 09:14</b></span>
+    </div>
+    <div class="avatar" title="Signed in as M. Ndlovu (demo)">MN</div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="bg"><img src="img/pit-dusk.jpg" alt=""></div>
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Obligations &amp; disclosure assurance</div>
+      <h1>Every disclosure line traced down to the <em>document that proves it.</em></h1>
+      <p class="sub">Licence conditions, the evidence filed against them, and the GRI, SASB, ICMM and JSE figures they support, joined in one auditable chain.</p>
+    </div>
+    <div class="kpis">
+      <div class="kpi alert"><div class="n">11 <small>of 62</small></div><div class="l">tracked conditions have no document behind them</div></div>
+      <div class="kpi"><div class="ring">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="7"/><circle id="ringArc" cx="32" cy="32" r="26" fill="none" stroke="#2FB574" stroke-width="7" stroke-linecap="round" transform="rotate(-90 32 32)"/></svg>
+        <div><div class="n" id="evPct">71<small>%</small></div><div class="l">of evidence items filed</div></div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<nav class="tabs-bar" aria-label="ESG sections">
+  <div class="wrap"><div class="tabs" role="tablist" id="tabs"></div></div>
+</nav>
+
+<main>
+  <div class="wrap">
+
+    <section class="view" id="v-overview" role="tabpanel" aria-labelledby="tab-overview">
+      <div class="chain">
+        <div class="chain-h">
+          <div><div class="eyebrow" style="color:rgba(255,255,255,.55)"><i class="live"></i>Assurance chain · live</div><h2 style="margin-top:6px">Disclosure → licence condition → evidence</h2></div>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><p>Select a disclosure line to trace it to source.</p><button class="btn-ghost" id="clearTrace" disabled>Clear trace</button></div>
+        </div>
+        <div class="svgwrap"><svg id="chainSvg" viewBox="0 0 1000 300" role="group" aria-label="Assurance chain diagram"></svg></div>
+        <div class="stack" id="chainStack"></div>
+        <div class="readout">
+          <div class="legend">
+            <span><svg viewBox="0 0 26 6"><line x1="0" y1="3" x2="26" y2="3" stroke="#2FB574" stroke-width="2.5"/></svg>Complete chain</span>
+            <span><svg viewBox="0 0 26 6"><line x1="0" y1="3" x2="26" y2="3" stroke="#F0A92E" stroke-width="2.5" stroke-dasharray="5 4"/></svg>Partial</span>
+            <span><svg viewBox="0 0 26 6"><line x1="0" y1="3" x2="26" y2="3" stroke="#FF4D5E" stroke-width="2.5" stroke-dasharray="2 4"/></svg>No document</span>
+          </div>
+          <p id="readout" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div>
+        <div class="card-h"><h2>Obligation status</h2><p>62 conditions across 6 authorisations</p></div>
+        <div class="tiles" id="tiles"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-h"><h2>Disclosure rollup</h2><p>Bars show the share of evidence filed behind each reported figure</p></div>
+        <div class="discs" id="discs"></div>
+      </div>
+    </section>
+
+    <section class="view" id="v-obligations" role="tabpanel" aria-labelledby="tab-obligations" hidden>
+      <div class="card-h"><div><h2>Obligations register</h2><p style="margin-top:4px">62 conditions across 6 authorisations · select a row to see the licence clause and evidence</p></div><div class="filters" id="filters"></div></div>
+      <div class="tbl"><table><thead><tr><th>Condition</th><th>Obligation</th><th>Owner</th><th>Frequency</th><th>Next due</th><th>Status</th><th>Evidence</th></tr></thead><tbody id="rows"></tbody></table></div>
+    </section>
+
+    <section class="view" id="v-evidence" role="tabpanel" aria-labelledby="tab-evidence" hidden>
+      <div class="card-h"><div><h2>Evidence library</h2><p style="margin-top:4px">Every document, the conditions it serves, its version and accreditation expiry</p></div><button class="btn-red" data-demo="Uploading evidence is switched off in this demo.">Upload evidence</button></div>
+      <div class="tbl"><table><thead><tr><th>Document</th><th>Type</th><th>Serves</th><th>Filed</th><th>Version</th><th>Accreditation expiry</th><th>State</th></tr></thead><tbody id="library"></tbody></table></div>
+    </section>
+
+    <section class="view" id="v-disclosure" role="tabpanel" aria-labelledby="tab-disclosure" hidden>
+      <div class="card-h"><div><h2>Disclosure by framework</h2><p style="margin-top:4px">The same figures mapped across each reporting framework</p></div></div>
+      <div class="fw" id="frameworks"></div>
+    </section>
+
+    <section class="view" id="v-audit" role="tabpanel" aria-labelledby="tab-audit" hidden>
+      <div class="card-h"><div><h2>Audit trail</h2><p style="margin-top:4px">Append-only. Entries cannot be edited or removed · read-only for assurance providers</p></div></div>
+      <div class="tbl"><table><thead><tr><th>Timestamp</th><th>Actor</th><th>Action</th><th>Object</th></tr></thead><tbody id="audit"></tbody></table></div>
+    </section>
+
+    <div class="foot"><span>TerraQ ESG · demonstration data, fictional site</span><span>GRI 2021 · SASB EM-MM · ICMM · JSE Sustainability Disclosure Guidance</span></div>
+  </div>
+</main>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dRef" hidden>
+  <div class="dh"><div><div class="eyebrow" id="dIns"></div><h3 id="dRef"></h3></div><button class="btn-ghost" id="dClose">Close</button></div>
+  <div class="db">
+    <p id="dOb" style="font-size:1.05rem;color:var(--ink);font-weight:500"></p>
+    <dl class="dmeta" id="dMeta"></dl>
+    <div><div class="eyebrow" style="margin-bottom:8px">Licence clause</div><blockquote id="dClause"></blockquote><div class="cite" id="dCite"></div><div class="cite">Verbatim from the signed instrument. Check against the original before relying on it.</div></div>
+    <div><div class="eyebrow" style="margin-bottom:8px">Evidence thread</div><div style="display:grid;gap:8px" id="dThread"></div></div>
+    <div><button class="btn-red" data-demo="Filing evidence is switched off in this demo.">File evidence</button></div>
+  </div>
+</aside>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+// ---------- Demo data (fictional site, from the design handoff) ----------
+const EVID=[
+ {id:'E1',l:'Abstraction meter returns',have:true,type:'Meter return',ref:'EV-2026-0143',filed:'12 Jul 2026',ver:'v3',exp:'—',serves:'WUL 3.2 · WUL 5.1'},
+ {id:'E2',l:'Q3 groundwater lab certificates',have:false,type:'SANAS lab report',ref:'—',filed:'not filed',ver:'—',exp:'—',serves:'WUL 3.2'},
+ {id:'E3',l:'Datalogger export · 12 boreholes',have:true,type:'Logger export',ref:'EV-2026-0151',filed:'09 Jul 2026',ver:'v1',exp:'—',serves:'WUL 3.2'},
+ {id:'E4',l:'Site water balance model',have:true,type:'Model output',ref:'EV-2026-0102',filed:'28 May 2026',ver:'v6',exp:'—',serves:'WUL 5.1 · GN 704 r6'},
+ {id:'E5',l:'Discharge quality certificates',have:true,type:'SANAS lab report',ref:'EV-2026-0166',filed:'03 Aug 2026',ver:'v1',exp:'31 Mar 2027',serves:'WUL 7.4'},
+ {id:'E6',l:'PCD freeboard survey',have:true,type:'Survey',ref:'EV-2026-0121',filed:'17 Jun 2026',ver:'v2',exp:'—',serves:'GN 704 r6'},
+ {id:'E7',l:'Waste classification (GNR 635)',have:true,type:'Classification',ref:'EV-2025-0388',filed:'14 Mar 2025',ver:'v1',exp:'14 Mar 2027',serves:'WML 8.1'},
+ {id:'E8',l:'Residue deposit setback survey',have:false,type:'Survey',ref:'—',filed:'not filed',ver:'—',exp:'—',serves:'GN 704 r4'},
+ {id:'E9',l:'Dust fallout readings · 8 buckets',have:true,type:'Monitoring record',ref:'EV-2026-0170',filed:'05 Aug 2026',ver:'v1',exp:'—',serves:'AEL 4.3'},
+ {id:'E10',l:'Isokinetic stack test report',have:false,type:'Accredited test',ref:'—',filed:'not filed',ver:'—',exp:'—',serves:'AEL 6.1'},
+ {id:'E11',l:'Injury register · MHSA',have:true,type:'Register',ref:'EV-2026-0119',filed:'01 Aug 2026',ver:'v11',exp:'—',serves:'MHSA s11'},
+ {id:'E12',l:'Lost-time hours ledger',have:true,type:'Ledger',ref:'EV-2026-0120',filed:'01 Aug 2026',ver:'v11',exp:'—',serves:'MHSA s11'},
+ {id:'E13',l:'LED spend invoices · SLP',have:true,type:'Invoice pack',ref:'EV-2026-0158',filed:'21 Jul 2026',ver:'v2',exp:'—',serves:'SLP 4.2'},
+ {id:'E14',l:'Community grievance log',have:false,type:'Register',ref:'—',filed:'not filed',ver:'—',exp:'—',serves:'SLP 4.2'}];
+const CONDS=[{id:'C1',l:'WUL 3.2',ev:['E1','E2','E3']},{id:'C2',l:'WUL 5.1',ev:['E1','E4']},{id:'C3',l:'WUL 7.4',ev:['E5']},{id:'C4',l:'GN 704 r6',ev:['E4','E6']},{id:'C5',l:'WML 8.1',ev:['E7']},{id:'C6',l:'GN 704 r4',ev:['E8']},{id:'C7',l:'AEL 4.3',ev:['E9']},{id:'C8',l:'AEL 6.1',ev:['E10']},{id:'C9',l:'MHSA s11',ev:['E11','E12']},{id:'C10',l:'SLP 4.2',ev:['E13','E14']}];
+const DISC=[
+ {id:'D1',code:'GRI 303-3',l:'Water withdrawal',cond:['C1','C2'],val:'1 842',unit:'ML'},
+ {id:'D2',code:'GRI 303-4',l:'Water discharge',cond:['C3','C4'],val:'214',unit:'ML'},
+ {id:'D3',code:'GRI 306-3',l:'Waste generated',cond:['C5','C6'],val:'96 400',unit:'t'},
+ {id:'D4',code:'GRI 305-7',l:'Particulate emissions',cond:['C7','C8'],val:'312',unit:'t PM'},
+ {id:'D5',code:'GRI 403-9',l:'Work-related injuries',cond:['C9'],val:'0.41',unit:'LTIFR'},
+ {id:'D6',code:'GRI 413-1',l:'Community programmes',cond:['C10'],val:'R 4.2',unit:'m LED spend'},
+ {id:'D7',code:'EM-MM-140a.1',l:'Water in stressed basins',cond:['C1','C2','C4'],val:'68',unit:'% of total'},
+ {id:'D8',code:'EM-MM-210b.1',l:'Community engagement',cond:['C10'],val:'—',unit:'grievances closed'}];
+const ROWS=[
+ {ref:'WUL 3.2',ins:'NWA s21(a)(g)(j)',ob:'Quarterly groundwater monitoring — 12 boreholes, full SANS 241 suite',ow:'M. Ndlovu',fq:'Quarterly',due:'07 Jul 2026',st:'late',ev:'2 of 3',short:true,cond:'C1',clauseCite:'WUL 04/A61B/ABCGJ/1234, condition 3.2',clause:'The water user shall monitor groundwater quality at the twelve (12) monitoring boreholes listed in Appendix C on a quarterly basis, for the full determinand suite prescribed in SANS 241:2015, and shall submit the analytical results, obtained from a laboratory accredited by SANAS, to the Responsible Authority within thirty (30) days of the end of each quarter.'},
+ {ref:'GN 704 r4',ins:'NWA GN 704',ob:'No residue deposit within 100 m of a watercourse — annual survey',ow:'T. Mabaso',fq:'Annual',due:'30 Jun 2026',st:'late',ev:'0 of 1',short:true,cond:'C6',clauseCite:'GN 704 of 1999, regulation 4(b)',clause:'No person in control of a mine or activity may place or dispose of any residue or substance which causes or is likely to cause pollution of a water resource, within the 1:100 year flood-line or within a horizontal distance of 100 metres from any watercourse or estuary, borehole or well, excluding boreholes or wells drilled specifically to monitor the pollution of groundwater.'},
+ {ref:'AEL 6.1',ins:'NEM:AQA',ob:'Isokinetic stack testing — crusher baghouse, accredited lab',ow:'K. Pillay',fq:'Annual',due:'15 Jul 2026',st:'late',ev:'0 of 1',short:true,cond:'C8',clauseCite:'AEL LIM/2023/017, condition 6.1',clause:'The holder shall undertake annual isokinetic point-source sampling of the primary crusher baghouse stack in accordance with the applicable methods, using a laboratory accredited for the relevant test methods, and shall report the measured concentrations against the minimum emission standards in the licence within sixty (60) days of sampling.'},
+ {ref:'WUL 5.1',ins:'NWA s21',ob:'Annual water balance and reconciliation submitted to DWS',ow:'M. Ndlovu',fq:'Annual',due:'31 Aug 2026',st:'due',ev:'2 of 2',cond:'C2',clauseCite:'WUL 04/A61B/ABCGJ/1234, condition 5.1',clause:'The water user shall maintain a site-wide water balance, reconciled against metered abstraction and discharge volumes, and shall submit the reconciled annual water balance to the Responsible Authority by 31 August each year.'},
+ {ref:'EA 12.4',ins:'NEMA s24N',ob:'Rehabilitation liability reassessment and quantum update',ow:'S. Botha',fq:'Annual',due:'12 Sep 2026',st:'due',ev:'1 of 3',clauseCite:'Environmental authorisation, condition 12.4',clause:'The holder shall annually reassess the environmental liability associated with rehabilitation, decommissioning and closure in accordance with the approved methodology, and shall adjust the financial provision accordingly, submitting the reassessment to the competent authority.'},
+ {ref:'SLP 4.2',ins:'MPRDA s25',ob:'Local economic development spend report to DMRE',ow:'N. Dube',fq:'Annual',due:'30 Sep 2026',st:'gap',ev:'1 of 2',short:true,cond:'C10',clauseCite:'Approved social and labour plan, clause 4.2',clause:'The holder shall implement the local economic development projects set out in the approved social and labour plan, report annually on expenditure against committed amounts, and record community engagement, including grievances raised and their resolution.'},
+ {ref:'WML 8.1',ins:'NEM:WA GNR 635',ob:'Waste classification and assessment for all residue streams',ow:'T. Mabaso',fq:'5-yearly',due:'14 Mar 2027',st:'ok',ev:'1 of 1',cond:'C5',clauseCite:'GNR 635 of 2013, regulation 4',clause:'A waste generator shall ensure that waste is classified in accordance with SANS 10234 within one hundred and eighty (180) days of generation, and shall reassess the classification at least once every five years, or within thirty (30) days of any modification to the process generating the waste.'},
+ {ref:'GN 704 r6',ins:'NWA GN 704',ob:'Clean and dirty water separation — 1:50 year containment capacity check',ow:'M. Ndlovu',fq:'Bi-annual',due:'31 Oct 2026',st:'ok',ev:'2 of 2',cond:'C4',clauseCite:'GN 704 of 1999, regulation 6(b)',clause:'Every person in control of a mine or activity shall confine any unpolluted water to a clean water system, away from any dirty area, and shall design, construct and maintain all water systems to ensure that they are not likely to spill into a clean water system more than once in fifty years.'},
+ {ref:'AEL 4.3',ins:'SANS 1929',ob:'Dust fallout monitoring — 8 single-bucket units, monthly readout',ow:'K. Pillay',fq:'Monthly',due:'05 Sep 2026',st:'ok',ev:'1 of 1',cond:'C7',clauseCite:'AEL LIM/2023/017, condition 4.3',clause:'The holder shall operate a dust fallout monitoring network of not fewer than eight single-bucket units at the positions shown in Annexure B, sampled monthly using the ASTM D1739 method, and shall report results against the dust fallout standard.'},
+ {ref:'MHSA s11',ins:'MHSA Act 29 of 1996',ob:'Baseline and issue-based risk assessment review',ow:'J. van Wyk',fq:'Annual',due:'20 Nov 2026',st:'ok',ev:'2 of 2',cond:'C9',clauseCite:'Mine Health and Safety Act 29 of 1996, section 11',clause:'The employer must identify the hazards to health or safety to which employees may be exposed while at work, assess the risks to health or safety to which employees may be exposed, record the significant hazards identified and risks assessed, and review the assessment periodically.'},
+ {ref:'WUL 7.4',ins:'NWA s21(f)',ob:'Discharge quality compliance — SANAS lab, monthly composite',ow:'M. Ndlovu',fq:'Monthly',due:'03 Sep 2026',st:'ok',ev:'1 of 1',cond:'C3',clauseCite:'WUL 04/A61B/ABCGJ/1234, condition 7.4',clause:'The water user shall sample the final discharge point monthly as a flow-proportional composite, analyse the sample at a SANAS-accredited laboratory, and ensure that the discharge complies with the limits stipulated in Table 3 of this licence.'},
+ {ref:'EMPr 9.1',ins:'NEM:BA',ob:'Alien and invasive species control programme — clearing record',ow:'S. Botha',fq:'Bi-annual',due:'30 Nov 2026',st:'gap',ev:'0 of 2',short:true,clauseCite:'Approved EMPr, clause 9.1',clause:'The holder shall implement a monitoring and control programme for listed alien and invasive species occurring within the authorised area, and shall keep a record of all clearing and follow-up treatment undertaken.'}];
+const AUDIT=[
+ {ts:'19 Aug 09:14',who:'System',what:'Assurance chain recalculated after evidence sync',obj:'62 conditions'},
+ {ts:'18 Aug 16:02',who:'M. Ndlovu',what:'Filed evidence against condition',obj:'EV-2026-0143 → WUL 3.2'},
+ {ts:'18 Aug 15:47',who:'M. Ndlovu',what:'Superseded document version',obj:'EV-2026-0143 v2 → v3'},
+ {ts:'17 Aug 11:20',who:'K. Pillay',what:'Changed next due date with reason recorded',obj:'AEL 6.1 · lab capacity'},
+ {ts:'15 Aug 08:36',who:'N. Dube',what:'Flagged evidence gap for group review',obj:'SLP 4.2'},
+ {ts:'14 Aug 14:11',who:'S. Botha',what:'Accepted 4 extracted conditions from licence ingest',obj:'EMPr rev 6'},
+ {ts:'14 Aug 14:09',who:'S. Botha',what:'Rejected 1 extracted condition as duplicate',obj:'EMPr rev 6'},
+ {ts:'11 Aug 10:02',who:'T. Mabaso',what:'Opened corrective action on overdue condition',obj:'GN 704 r4'},
+ {ts:'08 Aug 09:55',who:'External · Assurance',what:'Read-only export of disclosure rollup',obj:'FY2026 Q3'},
+ {ts:'03 Aug 13:28',who:'M. Ndlovu',what:'Filed evidence against condition',obj:'EV-2026-0166 → WUL 7.4'}];
+
+// ---------- Derivation ----------
+const COL={ok:'#2FB574',partial:'#F0A92E',broken:'#FF4D5E'};
+const DASH={ok:'none',partial:'5 4',broken:'2 4'};
+const ST={ok:['var(--ok-bg)','var(--ok-ink)','On track'],due:['var(--part-bg)','var(--part-ink)','Due soon'],late:['var(--miss-bg)','var(--miss-ink)','Overdue'],gap:['var(--gap-bg)','var(--gap-ink)','Evidence gap']};
+const ev=id=>EVID.find(e=>e.id===id), cond=id=>CONDS.find(c=>c.id===id);
+function evState(ids){const evIds=[...new Set(ids.flatMap(c=>(cond(c)||{ev:[]}).ev))];const have=evIds.filter(e=>ev(e).have).length;return{have,total:evIds.length,pct:evIds.length?Math.round(100*have/evIds.length):0,evIds}}
+const cls=p=>p===100?'ok':p===0?'broken':'partial';
+const xs=n=>{const pad=34,step=(1000-pad*2)/n;return Array.from({length:n},(_,i)=>pad+step*i+step/2)};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const state={tab:'overview',trace:null,filter:'all',row:null};
+
+// Hero ring: share of evidence items filed
+(()=>{const f=EVID.filter(e=>e.have).length,p=Math.round(100*f/EVID.length);document.getElementById('evPct').innerHTML=p+'<small>%</small>';
+ const c=2*Math.PI*26,a=document.getElementById('ringArc');a.setAttribute('stroke-dasharray',(c*p/100)+' '+c)})();
+
+// ---------- Tabs ----------
+const TABS=[['overview','Overview'],['obligations','Obligations',3],['evidence','Evidence library',4],['disclosure','Disclosure'],['audit','Audit trail']];
+const tabsEl=document.getElementById('tabs');
+tabsEl.innerHTML=TABS.map(([k,l,n])=>`<button class="tab" role="tab" id="tab-${k}" aria-controls="v-${k}" data-tab="${k}">${l}${n?`<span class="ct" title="${k==='obligations'?'overdue':'outstanding documents'}">${n}</span>`:''}</button>`).join('');
+function setTab(k,push){state.tab=k;closeDrawer();
+ TABS.forEach(([t])=>{const b=document.getElementById('tab-'+t),on=t===k;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;document.getElementById('v-'+t).hidden=!on});
+ if(push)history.replaceState(null,'','#'+k)}
+tabsEl.addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)setTab(b.dataset.tab,true)});
+tabsEl.addEventListener('keydown',e=>{const i=TABS.findIndex(([t])=>t===state.tab);let j=null;if(e.key==='ArrowRight')j=(i+1)%TABS.length;if(e.key==='ArrowLeft')j=(i-1+TABS.length)%TABS.length;if(j!==null){e.preventDefault();setTab(TABS[j][0],true);document.getElementById('tab-'+TABS[j][0]).focus()}});
+
+// ---------- Chain diagram ----------
+const svg=document.getElementById('chainSvg');
+function renderChain(){
+ const t=state.trace,traced=t?DISC.find(d=>d.id===t):null,tc=traced?traced.cond:[],te=traced?evState(tc).evIds:[];
+ const dim=hit=>!t||hit?1:.18;
+ const xD=xs(DISC.length),xC=xs(CONDS.length),xE=xs(EVID.length),pD={},pC={},pE={};
+ DISC.forEach((d,i)=>pD[d.id]=xD[i]);CONDS.forEach((c,i)=>pC[c.id]=xC[i]);EVID.forEach((e,i)=>pE[e.id]=xE[i]);
+ let h=`<defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(38)"><line x1="0" y1="0" x2="0" y2="8" stroke="rgba(255,255,255,.07)" stroke-width="2"/></pattern>
+ <pattern id="stip" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="rgba(255,255,255,.1)"/></pattern>
+ <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+ <rect x="0" y="14" width="1000" height="52" fill="rgba(227,23,47,.09)"/><rect x="0" y="122" width="1000" height="52" fill="url(#hatch)"/><rect x="0" y="230" width="1000" height="52" fill="url(#stip)"/>`;
+ const link=(x1,y1,x2,y2,k,on)=>{const op=on?(t?1:.55):.06,w=on&&t?2.6:1.5,flow=k==='ok'&&on?' class="flow" stroke-dasharray="6 3"':` stroke-dasharray="${DASH[k]}"`;
+  return `<path d="M${x1},${y1} C${x1},${y1+26} ${x2},${y2-26} ${x2},${y2}" fill="none" stroke="${COL[k]}" stroke-width="${w}" opacity="${op}"${flow}${on&&t?' filter="url(#glow)"':''}/>`};
+ CONDS.forEach(c=>c.ev.forEach(e=>{h+=link(pC[c.id],174,pE[e],230,ev(e).have?'ok':'broken',!t||(tc.includes(c.id)&&te.includes(e)))}));
+ DISC.forEach(d=>d.cond.forEach(c=>{h+=link(pD[d.id],66,pC[c],122,cls(evState([c]).pct),!t||d.id===t)}));
+ EVID.forEach(e=>{const x=pE[e.id];h+=`<g opacity="${dim(te.includes(e.id))}"><rect x="${x-22}" y="243" width="44" height="26" rx="5" fill="${e.have?'#1F3350':'#3A1420'}" stroke="${e.have?'#3B5376':'#FF4D5E'}"/><text x="${x}" y="260" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="${e.have?'#C9D3E0':'#FFB3BB'}">${e.id}</text><title>${esc(e.l)} · ${e.have?'filed':'not filed'}</title></g>`});
+ CONDS.forEach(c=>{const x=pC[c.id];h+=`<g opacity="${dim(tc.includes(c.id))}"><rect x="${x-34}" y="135" width="68" height="26" rx="5" fill="#16263B" stroke="#3B5376"/><text x="${x}" y="152" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#E4E9F0">${c.l}</text><title>Condition ${c.l}</title></g>`});
+ DISC.forEach(d=>{const x=pD[d.id],s=evState(d.cond),k=cls(s.pct),sel=d.id===t;
+  h+=`<g class="node" tabindex="0" role="button" aria-pressed="${sel}" aria-label="${esc(d.code+' '+d.l)}, ${s.have} of ${s.total} evidence items filed" data-d="${d.id}" opacity="${dim(sel)}"><rect x="${x-40}" y="27" width="80" height="26" rx="13" fill="${sel?COL[k]:'#16263B'}" stroke="${COL[k]}" stroke-width="1.8"/><text x="${x}" y="44" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" font-weight="600" fill="${sel?'#0B1420':'#fff'}">${d.code.replace('GRI ','').replace('EM-MM-','')}</text><title>${esc(d.code)} · ${esc(d.l)}</title></g>`});
+ h+=`<g font-family="IBM Plex Mono, monospace" font-size="9.5" fill="rgba(255,255,255,.62)" letter-spacing="1.2" stroke="#101C2C" stroke-width="5" paint-order="stroke" stroke-linejoin="round"><text x="34" y="10">DISCLOSURE · GRI · SASB · ICMM · JSE</text><text x="34" y="116">LICENCE CONDITIONS · WUL · EA · WML · AEL · SLP · MHSA</text><text x="34" y="224">EVIDENCE · LAB CERTS · LOGGERS · SURVEYS · REGISTERS</text></g>`;
+ svg.innerHTML=h;
+ // mobile stack
+ document.getElementById('chainStack').innerHTML=DISC.map(d=>{const s=evState(d.cond),k=cls(s.pct);return `<button style="--c:${COL[k]}" data-d="${d.id}" aria-pressed="${d.id===t}"><span class="c">${d.code}</span><b>${d.l}</b><span class="s">${s.pct===100?'Complete chain · '+s.total+' documents':s.have+' of '+s.total+' documents filed'}</span></button>`}).join('');
+ // readout
+ let r='Select any disclosure line to trace it down to its source documents.';
+ if(traced){const s=evState(tc),miss=s.evIds.filter(e=>!ev(e).have).map(e=>ev(e).l);
+  r=s.pct===100?`<b>${traced.code}</b> ${traced.l} · ${tc.length} condition${tc.length>1?'s':''}, ${s.total} of ${s.total} evidence items filed. <span style="color:#2FB574;font-weight:600">Reportable.</span>`
+   :`<b>${traced.code}</b> ${traced.l} · ${s.have} of ${s.total} filed. <span style="color:#FF8A96;font-weight:600">Outstanding:</span> ${miss.join('; ')}.`}
+ document.getElementById('readout').innerHTML=r;
+ document.getElementById('clearTrace').disabled=!t;
+}
+function trace(id){state.trace=state.trace===id?null:id;renderChain()}
+svg.addEventListener('click',e=>{const g=e.target.closest('[data-d]');if(g)trace(g.dataset.d)});
+svg.addEventListener('keydown',e=>{const g=e.target.closest('[data-d]');if(g&&(e.key==='Enter'||e.key===' ')){e.preventDefault();trace(g.dataset.d);svg.querySelector(`[data-d="${g.dataset.d}"]`).focus()}});
+document.getElementById('chainStack').addEventListener('click',e=>{const b=e.target.closest('[data-d]');if(b)trace(b.dataset.d)});
+document.getElementById('clearTrace').addEventListener('click',()=>{state.trace=null;renderChain()});
+
+// ---------- Overview tiles & rollup ----------
+const TILES=[['44','On track','Evidence filed and verified','var(--ok)','ok'],['11','Due within 30 days','4 need external input','var(--part)','due'],['3','Overdue','Longest 41 days · WUL 3.2','var(--miss)','late'],['4','Evidence gap','Reported but unsupported','var(--gap)','gap']];
+document.getElementById('tiles').innerHTML=TILES.map(([n,l,note,c,f])=>`<button class="tile" style="--c:${c}" data-filter="${f}"><span class="go">View →</span><div class="n">${n}</div><div class="l">${l}</div><div class="note">${note}</div></button>`).join('');
+document.getElementById('tiles').addEventListener('click',e=>{const b=e.target.closest('[data-filter]');if(b){state.filter=b.dataset.filter;renderRows();setTab('obligations',true);scrollTo({top:0,behavior:'smooth'})}});
+const barCol=k=>k==='ok'?'var(--ok)':k==='partial'?'var(--part)':'var(--miss)';
+document.getElementById('discs').innerHTML=DISC.map(d=>{const s=evState(d.cond),k=cls(s.pct),lab=k==='ok'?['var(--ok-bg)','var(--ok-ink)','Complete']:k==='partial'?['var(--part-bg)','var(--part-ink)','Partial']:['var(--miss-bg)','var(--miss-ink)','No document'];
+ return `<button class="disc" data-d="${d.id}"><div class="top"><span class="code">${d.code}</span><span class="state" style="--bg:${lab[0]};--fg:${lab[1]}">${lab[2]}</span></div>
+ <div class="top"><span class="nm">${d.l}</span><span class="val">${d.val}<small>${d.unit}</small></span></div>
+ <div class="bar" role="img" aria-label="${s.pct}% of evidence filed"><i style="width:${Math.max(s.pct,2)}%;--c:${barCol(k)}"></i></div>
+ <div class="src">${s.have} of ${s.total} evidence items · ${d.cond.map(c=>cond(c).l).join(' · ')}</div></button>`}).join('');
+document.getElementById('discs').addEventListener('click',e=>{const b=e.target.closest('[data-d]');if(b){state.trace=b.dataset.d;renderChain();document.querySelector('.chain').scrollIntoView({behavior:'smooth',block:'center'})}});
+
+// ---------- Obligations ----------
+const FIL=[['all','All'],['late','Overdue'],['due','Due soon'],['gap','Evidence gap'],['ok','On track']];
+function renderRows(){
+ document.getElementById('filters').innerHTML=FIL.map(([k,l])=>`<button class="chip" data-f="${k}" aria-pressed="${state.filter===k}">${l}<span class="k">${k==='all'?ROWS.length:ROWS.filter(r=>r.st===k).length}</span></button>`).join('');
+ document.getElementById('rows').innerHTML=ROWS.map((r,i)=>[r,i]).filter(([r])=>state.filter==='all'||r.st===state.filter).map(([r,i])=>{const s=ST[r.st];
+  return `<tr class="click" data-row="${i}" tabindex="0"><td><b class="mono">${r.ref}</b><span class="sub">${r.ins}</span></td><td>${esc(r.ob)}</td><td>${r.ow}</td><td>${r.fq}</td><td class="mono">${r.due}</td><td><span class="state" style="--bg:${s[0]};--fg:${s[1]}">${s[2]}</span></td><td class="mono ${r.short?'short':''}">${r.ev}</td></tr>`}).join('');
+}
+document.getElementById('filters').addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(b){state.filter=b.dataset.f;renderRows()}});
+const rowsEl=document.getElementById('rows');
+rowsEl.addEventListener('click',e=>{const tr=e.target.closest('[data-row]');if(tr)openDrawer(+tr.dataset.row)});
+rowsEl.addEventListener('keydown',e=>{const tr=e.target.closest('[data-row]');if(tr&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openDrawer(+tr.dataset.row)}});
+
+// ---------- Drawer ----------
+const drawer=document.getElementById('drawer'),scrim=document.getElementById('scrim');let lastFocus=null;
+function openDrawer(i){const r=ROWS[i],s=ST[r.st];lastFocus=document.activeElement;
+ document.getElementById('dIns').textContent=r.ins;document.getElementById('dRef').textContent=r.ref;document.getElementById('dOb').textContent=r.ob;
+ document.getElementById('dMeta').innerHTML=`<div><dt>Owner</dt><dd>${r.ow}</dd></div><div><dt>Frequency</dt><dd>${r.fq}</dd></div><div><dt>Next due</dt><dd>${r.due}</dd></div><div><dt>Status</dt><dd><span class="state" style="--bg:${s[0]};--fg:${s[1]}">${s[2]}</span></dd></div>`;
+ document.getElementById('dClause').textContent=r.clause;document.getElementById('dCite').textContent=r.clauseCite;
+ const c=r.cond?cond(r.cond):null,th=(c?c.ev:[]).map(id=>{const e=ev(id);return `<div class="ev" style="--c:${e.have?'var(--ok)':'var(--miss)'}"><b>${esc(e.l)}</b><span>${e.have?`${e.type} · ${e.ref} · filed ${e.filed} · ${e.ver}`:`${e.type} · outstanding, request from ${r.ow}`}</span></div>`});
+ document.getElementById('dThread').innerHTML=th.length?th.join(''):`<div class="ev" style="--c:var(--miss)"><b>No evidence linked yet</b><span>This condition is reported without a source document</span></div>`;
+ drawer.hidden=false;requestAnimationFrame(()=>{drawer.classList.add('open');scrim.classList.add('open')});document.getElementById('dClose').focus()}
+function closeDrawer(){if(drawer.hidden)return;drawer.classList.remove('open');scrim.classList.remove('open');setTimeout(()=>{drawer.hidden=true},280);if(lastFocus)lastFocus.focus()}
+document.getElementById('dClose').addEventListener('click',closeDrawer);scrim.addEventListener('click',closeDrawer);
+addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
+
+// ---------- Evidence, disclosure, audit ----------
+document.getElementById('library').innerHTML=EVID.map(e=>{const k=!e.have?['var(--miss-bg)','var(--miss-ink)','Outstanding']:e.exp!=='—'?['var(--part-bg)','var(--part-ink)','Expiry tracked']:['var(--ok-bg)','var(--ok-ink)','Valid'];
+ return `<tr><td><b>${esc(e.l)}</b><span class="sub">${e.ref} · ${e.id}</span></td><td>${e.type}</td><td class="mono">${e.serves}</td><td class="mono">${e.filed}</td><td class="mono">${e.ver}</td><td class="mono">${e.exp}</td><td><span class="state" style="--bg:${k[0]};--fg:${k[1]}">${k[2]}</span></td></tr>`}).join('');
+const FW=[['GRI 2021','Universal + sector 14',DISC.filter(d=>d.code.startsWith('GRI'))],['SASB EM-MM','Metals & mining',DISC.filter(d=>d.code.startsWith('EM-MM'))],['ICMM','Mining principles · performance expectations',DISC.filter(d=>['D1','D2','D5','D6'].includes(d.id))],['JSE Sustainability Disclosure Guidance','Environment · social',DISC.filter(d=>['D1','D3','D5','D8'].includes(d.id))]];
+document.getElementById('frameworks').innerHTML=FW.map(([n,note,lines])=>`<div class="card"><div class="card-h" style="margin-bottom:6px"><div><h2>${n}</h2><p style="margin-top:2px">${note}</p></div><button class="btn-line" data-demo="Template export is switched off in this demo.">Export template</button></div>
+ ${lines.map(d=>{const s=evState(d.cond),k=cls(s.pct);return `<div class="fwline"><span class="code">${d.code}</span><b style="color:var(--ink)">${d.l}</b><span style="font-family:var(--f-head);font-weight:800;color:var(--ink)">${d.val} <small style="color:var(--ink-3);font-weight:600">${d.unit}</small></span><div><div class="bar"><i style="width:${Math.max(s.pct,2)}%;--c:${barCol(k)}"></i></div><div class="src" style="margin-top:4px">${s.have} of ${s.total} evidence items</div></div></div>`}).join('')}</div>`).join('');
+document.getElementById('audit').innerHTML=AUDIT.map(a=>`<tr><td class="mono">${a.ts}</td><td><b>${a.who}</b></td><td>${a.what}</td><td class="mono">${esc(a.obj)}</td></tr>`).join('');
+
+// Demo-only actions
+const toast=document.getElementById('toast');let tt;
+document.addEventListener('click',e=>{const b=e.target.closest('[data-demo]');if(!b)return;toast.textContent=b.dataset.demo;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('show'),2600)});
+
+// Boot
+renderChain();renderRows();
+const h=location.hash.slice(1);setTab(TABS.some(([t])=>t===h)?h:'overview');
+addEventListener('hashchange',()=>{const k=location.hash.slice(1);if(TABS.some(([t])=>t===k))setTab(k)});
+</script>
+</body>
+</html>
