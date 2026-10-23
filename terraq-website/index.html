@@ -1,0 +1,1016 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TerraQ</title>
+<meta name="description" content="TerraQ combines geology, geotechnical engineering and data intelligence for mining and environmental work.">
+<link rel="icon" href="terraq-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;0,900;1,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>html,body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<style>
+/* Layout: full-bleed photo bands from the company profile, alternating with light product bays. Glass instrument cards float over the hero. */
+:root{
+  --navy:#101C2C; --navy-2:#16263B; --navy-3:#21344F;
+  --red:#E3172F; --red-deep:#B30F23;
+  --silver:#C9CFD8; --steel:#8B95A5; --white:#FFFFFF;
+  --paper:#F2F4F7; --ink:#101C2C; --ink-2:#4A5568; --rule:#DDE2E9;
+  --amber:#F2A93B; --green:#35C46F; --blue:#4FA3E0;
+  --glass:rgba(16,28,44,.55); --glass-line:rgba(255,255,255,.18);
+  --f-head:"Montserrat","Segoe UI",system-ui,sans-serif;
+  --f-body:"Archivo","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{background:var(--navy);color:var(--silver);font-family:var(--f-body);font-size:16px;line-height:1.6;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--navy)}
+a{color:inherit}
+img{max-width:100%;display:block}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{font-family:var(--f-head);margin:0;text-wrap:balance;letter-spacing:-.015em}
+h2{font-size:clamp(2.1rem,4.6vw,3.6rem);font-weight:800;line-height:1.05}
+h2 em,h1 em{font-style:normal;color:var(--red)}
+p{margin:0}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-head);font-weight:700;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
+.kicker::before{content:"";width:18px;height:2px;background:currentColor}
+
+/* Buttons */
+.btn{white-space:nowrap;display:inline-flex;align-items:center;gap:10px;font-family:var(--f-head);font-weight:700;font-size:.95rem;text-decoration:none;padding:15px 28px;border-radius:999px;transition:transform .18s ease,background .18s,box-shadow .18s;border:2px solid transparent}
+.btn:hover{transform:translateY(-2px)}
+.btn.red{background:var(--red);color:var(--white);box-shadow:0 10px 30px -10px rgba(227,23,47,.7)}
+.btn.red:hover{background:var(--red-deep)}
+.btn.line{border-color:rgba(255,255,255,.55);color:var(--white);background:rgba(16,28,44,.25);backdrop-filter:blur(6px)}
+.btn.line:hover{border-color:var(--white)}
+.btn .arr{transition:transform .18s}
+.btn:hover .arr{transform:translateX(4px)}
+
+/* Header */
+.top{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;transition:background .25s,box-shadow .25s}
+.top.solid{background:var(--navy);box-shadow:0 1px 0 rgba(255,255,255,.08)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:76px}
+.brand img{height:38px;width:auto}
+.nav{display:flex;align-items:center;gap:2px}
+.nav a{text-decoration:none;font-family:var(--f-head);font-weight:600;font-size:.92rem;color:rgba(255,255,255,.85);padding:8px 14px;border-radius:999px;white-space:nowrap}
+.nav a:hover{color:var(--white);background:rgba(255,255,255,.08)}
+.nav a .new{font-family:var(--f-mono);font-size:.6rem;font-weight:500;background:var(--red);color:var(--white);padding:2px 6px;border-radius:999px;margin-left:6px;vertical-align:2px}
+.nav .btn{padding:11px 22px;margin-left:10px;font-size:.9rem}
+.menu-btn{display:none;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:var(--white);font-family:var(--f-head);font-weight:700;font-size:.8rem;padding:9px 16px;border-radius:999px;cursor:pointer}
+@media (max-width:900px){
+  .menu-btn{display:block}
+  .nav{position:absolute;top:76px;left:0;right:0;flex-direction:column;align-items:stretch;background:var(--navy);padding:10px max(20px,env(safe-area-inset-right,0px)) 20px max(20px,env(safe-area-inset-left,0px));box-shadow:0 20px 40px rgba(0,0,0,.4)}
+  .nav[data-open="false"]{display:none}
+  .nav a{padding:13px 8px;border-radius:0;border-bottom:1px solid rgba(255,255,255,.08)}
+  .nav .btn{margin:14px 0 0;justify-content:center;border-radius:999px}
+}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;color:var(--white);isolation:isolate}
+.hero .bg{position:absolute;inset:0;z-index:-2}
+.hero .bg img{width:100%;height:100%;object-fit:cover;object-position:60% 50%;animation:drift 28s ease-in-out infinite alternate}
+@keyframes drift{from{transform:scale(1.04)}to{transform:scale(1.14) translate(-1.5%,-1%)}}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:
+  linear-gradient(90deg,rgba(10,18,30,.94) 0%,rgba(10,18,30,.78) 38%,rgba(10,18,30,.25) 70%,rgba(10,18,30,.35) 100%),
+  linear-gradient(0deg,rgba(10,18,30,.9) 0%,rgba(10,18,30,0) 30%)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:40px;align-items:center;padding-block:150px 70px}
+.badge{display:inline-block;font-family:var(--f-head);font-weight:700;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--white);background:rgba(227,23,47,.18);border:1px solid rgba(227,23,47,.55);padding:8px 14px;border-radius:6px}
+.hero h1{font-size:clamp(2.8rem,6.6vw,5.4rem);font-weight:900;line-height:1;margin-top:22px}
+.hero .lede{margin-top:24px;font-size:1.18rem;line-height:1.6;color:rgba(255,255,255,.86);max-width:36em}
+.hero .btns{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.points{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:40px;font-size:.92rem;color:rgba(255,255,255,.75)}
+.points span{display:inline-flex;align-items:center;gap:8px}
+.points span::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 0 4px rgba(227,23,47,.25)}
+.points b{color:var(--white);font-weight:600}
+
+/* Glass instrument cards */
+.instruments{position:relative;height:470px}
+.glass{position:absolute;background:var(--glass);border:1px solid var(--glass-line);border-radius:14px;backdrop-filter:blur(12px) saturate(1.2);-webkit-backdrop-filter:blur(12px) saturate(1.2);box-shadow:0 30px 60px -20px rgba(0,0,0,.6);padding:14px 16px;color:var(--white)}
+.glass .gl{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);display:flex;justify-content:space-between;gap:10px;margin-bottom:8px}
+.glass .gl b{color:var(--white);font-weight:500}
+.g1{left:0;top:0;width:70%;animation:float 7s ease-in-out infinite}
+.g2{right:0;top:228px;width:46%;animation:float 8s ease-in-out -2s infinite}
+.g3{left:2%;top:330px;width:46%;animation:float 6.5s ease-in-out -4s infinite}
+@keyframes float{50%{transform:translateY(-10px)}}
+#contours{width:100%;height:170px;display:block;border-radius:8px}
+.glass svg{width:100%;height:auto;display:block}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:0}
+@media (max-width:980px){.hero .wrap{grid-template-columns:1fr;padding-block:130px 56px}.instruments{display:none}}
+
+/* Ticker */
+.ticker{background:var(--red);color:var(--white);overflow:hidden;white-space:nowrap}
+.ticker .track{display:inline-flex;gap:46px;padding-block:14px;animation:slide 40s linear infinite;font-family:var(--f-head);font-weight:700;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase}
+.ticker .track span{display:inline-flex;align-items:center;gap:46px}
+.ticker .track span::after{content:"";width:7px;height:7px;background:var(--white);transform:rotate(45deg);opacity:.7}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* Light product bay */
+.light{background:var(--paper);color:var(--ink-2)}
+.light h2,.light h3{color:var(--ink)}
+.band{padding-block:110px}
+.head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,400px);gap:32px;align-items:end;margin-bottom:44px}
+.head p{font-size:1.06rem}
+@media (max-width:900px){.head{grid-template-columns:1fr}}
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px}
+.pill{font-family:var(--f-head);font-weight:700;font-size:.92rem;padding:12px 20px;border-radius:999px;border:1.5px solid var(--rule);background:var(--white);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:background .15s,border-color .15s,color .15s}
+.pill:hover{border-color:var(--ink)}
+.pill small{font-family:var(--f-mono);font-weight:500;font-size:.66rem;letter-spacing:.06em;color:var(--steel);text-transform:uppercase}
+.pill[aria-selected="true"]{background:var(--red);border-color:var(--red);color:var(--white)}
+.pill[aria-selected="true"] small{color:rgba(255,255,255,.8)}
+.panel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);background:var(--white);border-radius:20px;overflow:hidden;box-shadow:0 30px 70px -40px rgba(16,28,44,.45)}
+.panel[hidden]{display:none}
+.panel .txt{padding:46px 44px;display:flex;flex-direction:column;gap:20px;min-width:0}
+.panel .pic{position:relative;min-height:460px;background:var(--navy)}
+.panel .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.panel .pic::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,18,30,.05) 30%,rgba(10,18,30,.75))}
+.panel .pic .glass{left:24px;right:24px;bottom:24px;z-index:2;position:absolute}
+@media (max-width:900px){.panel{grid-template-columns:1fr}.panel .pic{min-height:340px;order:-1}.panel .txt{padding:30px 24px}}
+.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-head);font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--paper);padding:7px 12px;border-radius:999px;align-self:flex-start}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.panel h3{font-size:clamp(2rem,3.6vw,2.8rem);font-weight:900;line-height:1}
+.panel h3 em{font-style:normal;color:var(--red)}
+.panel .pitch{font-size:1.14rem;color:var(--ink);line-height:1.5}
+.steps{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.steps li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:12px;align-items:start}
+.steps li::before{content:"";width:30px;height:30px;border-radius:8px;background:rgba(227,23,47,.1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E3172F' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L19 7'/%3E%3C/svg%3E") center/14px no-repeat}
+.steps b{color:var(--ink)}
+.meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;border-top:1px solid var(--rule);padding-top:18px}
+.meta dt{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--steel)}
+.meta dd{margin:4px 0 0;color:var(--ink);font-size:.93rem;font-weight:500}
+.note{font-size:.9rem;border-left:3px solid var(--amber);padding-left:12px}
+.tlink{font-family:var(--f-head);font-weight:700;color:var(--red);text-decoration:none;align-self:flex-start}
+.tlink:hover{text-decoration:underline}
+.cap{font-family:var(--f-mono);font-size:.62rem;color:rgba(255,255,255,.6);margin-top:6px;letter-spacing:.06em}
+
+/* Services: photo cards */
+.dark{background:var(--navy)}
+.dark .head p{color:var(--steel)}
+.dark h2{color:var(--white)}
+.divs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px}
+@media (max-width:900px){.divs{grid-template-columns:1fr}}
+.dcard{background:var(--navy-2);border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column}
+.dcard .ph{position:relative;height:250px;overflow:hidden}
+.dcard .ph img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.dcard:hover .ph img{transform:scale(1.05)}
+.dcard .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,38,59,0) 40%,var(--navy-2))}
+.dcard .ph h3{position:absolute;left:30px;bottom:18px;z-index:2;color:var(--white);font-size:2.1rem;font-weight:900}
+.dcard .ph .tag{position:absolute;top:18px;left:30px;z-index:2;font-family:var(--f-head);font-weight:700;font-size:.7rem;letter-spacing:.14em;background:var(--red);color:var(--white);padding:6px 11px;border-radius:999px}
+.dcard .body{padding:8px 30px 32px}
+.dcard .body > p{color:var(--steel);margin-bottom:22px}
+.svc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 26px}
+@media (max-width:520px){.svc{grid-template-columns:1fr}}
+.svc h4{font-size:.95rem;font-weight:800;color:var(--white);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.svc h4::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--red)}
+.svc ul{list-style:none;padding:0;margin:0;font-size:.92rem;display:grid;gap:4px}
+
+/* About (light) */
+.about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start}
+@media (max-width:900px){.about{grid-template-columns:1fr;gap:36px}}
+.about .photo{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/3.3;max-width:100%}
+.about .photo img{width:100%;height:100%;object-fit:cover}
+.about .photo .glass{left:20px;bottom:20px;right:20px;position:absolute}
+.leader{display:flex;align-items:center;gap:14px}
+.leader .init{width:48px;height:48px;border-radius:12px;background:var(--red);color:var(--white);font-family:var(--f-head);font-weight:900;display:grid;place-items:center}
+.leader b{font-family:var(--f-head);display:block;font-size:1.05rem}
+.big{font-size:clamp(1.25rem,2.2vw,1.6rem);line-height:1.4;color:var(--ink);font-weight:500;margin-top:18px}
+.why{list-style:none;padding:0;margin:28px 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:520px){.why{grid-template-columns:1fr}}
+.why li{background:var(--white);border-radius:14px;padding:16px 18px;border:1px solid var(--rule)}
+.why li b{display:block;font-family:var(--f-head);color:var(--ink);font-size:.95rem;margin-bottom:2px}
+.why li span{font-size:.9rem}
+.vision{margin-top:28px;background:var(--navy);color:rgba(255,255,255,.85);border-radius:16px;padding:22px 24px}
+.vision .kicker{margin-bottom:8px}
+.industries{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+.industries span{font-size:.85rem;padding:7px 13px;border-radius:999px;background:var(--white);border:1px solid var(--rule);color:var(--ink)}
+
+/* Contact */
+.contact{position:relative;isolation:isolate;color:var(--white);overflow:hidden}
+.contact .bg{position:absolute;inset:0;z-index:-2}
+.contact .bg img{width:100%;height:100%;object-fit:cover}
+.contact::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(100deg,rgba(179,15,35,.94) 0%,rgba(150,12,30,.86) 45%,rgba(16,28,44,.55) 100%)}
+.cgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center}
+@media (max-width:900px){.cgrid{grid-template-columns:1fr}}
+.contact h2{color:var(--white)}
+.contact .kicker{color:var(--white)}
+.contact .intro{font-size:1.15rem;margin-top:18px;color:rgba(255,255,255,.9);max-width:30em}
+.lines{display:grid;gap:10px}
+.cline{background:rgba(16,28,44,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:16px 18px;display:grid;grid-template-columns:80px minmax(0,1fr) auto;gap:14px;align-items:center}
+.cline .k{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steel)}
+.cline .v{color:var(--white);font-family:var(--f-head);font-weight:700;overflow-wrap:anywhere;text-decoration:none}
+.cline button{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:var(--white);font-family:var(--f-head);font-weight:700;font-size:.72rem;padding:8px 14px;border-radius:999px;cursor:pointer}
+.cline button:hover{background:rgba(255,255,255,.18)}
+@media (max-width:520px){.cline{grid-template-columns:minmax(0,1fr) auto}.cline .k{grid-column:1/-1}}
+
+footer{background:#0B1420;padding-block:40px;color:var(--steel)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:18px}
+footer img{height:32px;width:auto}
+footer .tag{font-family:var(--f-head);font-weight:800;color:var(--white)}
+footer .tag em{font-style:normal;color:var(--red)}
+footer small{font-family:var(--f-mono);font-size:.72rem}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .hero .bg img,.glass,.ticker .track{animation:none}
+  .btn,.dcard .ph img{transition:none}
+}
+
+/* ---------- Product pages ---------- */
+.ppage[hidden]{display:none}
+.pp-hero{position:relative;isolation:isolate;color:#fff;overflow:hidden}
+.pp-hero .bg{position:absolute;inset:0;z-index:-2}
+.pp-hero .bg img{width:100%;height:100%;object-fit:cover;animation:drift 30s ease-in-out infinite alternate}
+.pp-hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(10,18,30,.95) 0%,rgba(10,18,30,.8) 50%,rgba(10,18,30,.4) 100%)}
+.pp-hero .wrap{padding-block:140px 70px;display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.pp-hero h1{font-size:clamp(2.6rem,6vw,4.6rem);font-weight:900;line-height:1;color:#fff}
+.pp-hero h1 em{font-style:normal;color:var(--red)}
+.pp-lede{font-size:1.18rem;color:rgba(255,255,255,.86);max-width:40em;line-height:1.6}
+.pp-hero .btns{display:flex;flex-wrap:wrap;gap:14px;margin-top:8px}
+.back{font-family:var(--f-head);font-weight:700;font-size:.85rem;color:rgba(255,255,255,.75);text-decoration:none}
+.back:hover{color:#fff}
+.status.dark{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2)}
+.pp-stats{display:flex;flex-wrap:wrap;gap:14px;margin-top:20px}
+.pp-stats div{background:rgba(16,28,44,.55);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:14px 18px;min-width:170px}
+.pp-stats b{display:block;font-family:var(--f-head);font-weight:900;font-size:1.9rem;color:#fff;letter-spacing:-.02em}
+.pp-stats span{font-size:.85rem;color:rgba(255,255,255,.75)}
+.split{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:48px;align-items:start}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px;align-items:start}
+@media (max-width:900px){.split,.two{grid-template-columns:1fr;gap:28px}}
+.pains{list-style:none;padding:0;margin:0;display:grid;gap:14px}
+.pains li{background:var(--white);border:1px solid var(--rule);border-left:4px solid var(--red);border-radius:12px;padding:16px 18px}
+.pains b{display:block;font-family:var(--f-head);color:var(--ink);margin-bottom:2px}
+.flow4{list-style:none;padding:0;margin:40px 0 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;position:relative}
+.flow4.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:900px){.flow4,.flow4.three{grid-template-columns:1fr}}
+.flow4 li{background:var(--navy-2);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:22px;display:grid;gap:10px;align-content:start}
+.flow4 h3{color:#fff;font-size:1.25rem;font-weight:800}
+.flow4 p{font-size:.94rem}
+.ic{width:46px;height:46px;border-radius:12px;background:rgba(227,23,47,.15);display:grid;place-items:center}
+.ic svg{width:24px;height:24px;fill:none;stroke:var(--red);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ic.num{font-family:var(--f-head);font-weight:900;font-size:1.4rem;color:var(--red)}
+.mono-s{font-family:var(--f-mono);font-size:.74rem;color:var(--steel);letter-spacing:.04em}
+.showcase{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:48px;align-items:center}
+.showcase.rev{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
+@media (max-width:900px){.showcase,.showcase.rev{grid-template-columns:1fr;gap:30px}}
+.pp-p{margin-top:16px;font-size:1.04rem;line-height:1.65}
+.dark .pp-p{color:var(--silver)}
+.mock{background:#0B1420;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.1);box-shadow:0 30px 60px -30px rgba(10,18,30,.7);margin:0;min-width:0}
+.mock svg{width:100%;height:auto;display:block}
+.light-mock{background:var(--white)}
+.mock-bar{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.08);font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;color:var(--steel);text-transform:uppercase}
+.mock-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:14px 16px}
+@media (max-width:520px){.mock-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.mock-kpis div{background:var(--navy-2);border-radius:10px;padding:10px 12px}
+.mock-kpis b{display:block;font-family:var(--f-head);font-weight:900;font-size:1.4rem;color:#fff}
+.mock-kpis span{font-size:.75rem;color:var(--steel)}
+.mock-kpis .warn{background:rgba(242,169,59,.15);border:1px solid rgba(242,169,59,.4)}
+.mock-flags{display:grid;gap:6px;padding:0 16px 10px}
+.mock-flags div{display:flex;gap:10px;align-items:baseline;font-size:.86rem;color:var(--silver);background:rgba(255,255,255,.03);padding:9px 11px;border-radius:8px}
+.mock-flags i{width:8px;height:8px;border-radius:50%;flex:none;transform:translateY(-1px)}
+.mock-flags b{font-family:var(--f-mono);font-weight:500;color:#fff;font-size:.8rem;flex:none}
+.mock .cap{padding:0 16px 14px;color:var(--steel)}
+.assess{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:34px}
+.assess.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:1000px){.assess,.assess.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.assess,.assess.four{grid-template-columns:1fr}}
+.assess div{background:var(--white);border:1px solid var(--rule);border-radius:16px;padding:22px;border-top:4px solid var(--red)}
+.assess h3{font-size:1.1rem;font-weight:800;color:var(--ink);margin-bottom:8px}
+.assess p{font-size:.93rem}
+.info{min-width:0;display:flex;flex-direction:column;align-items:flex-start}
+.dark .steps li{color:var(--silver)}
+.dark .steps b{color:#fff}
+.info .btn{align-self:flex-start}
+.ticks{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:10px}
+.ticks li{padding-left:28px;position:relative}
+.ticks li::before{content:"";position:absolute;left:0;top:.2em;width:18px;height:18px;border-radius:6px;background:rgba(227,23,47,.12) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E3172F' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L19 7'/%3E%3C/svg%3E") center/11px no-repeat}
+.light .ticks li{color:var(--ink)}
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:30px}
+@media (max-width:900px){.tiers{grid-template-columns:1fr}}
+.tier{background:var(--navy-2);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:26px;position:relative;display:flex;flex-direction:column;gap:10px}
+.tier.hot{border:2px solid var(--red);background:linear-gradient(180deg,rgba(227,23,47,.12),var(--navy-2) 40%)}
+.tier .tn{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steel)}
+.tier .price{font-family:var(--f-head);font-weight:900;font-size:2.2rem;color:#fff;letter-spacing:-.02em}
+.tier .price small{font-size:.9rem;font-weight:600;color:var(--steel)}
+.tier .ticks li{color:var(--silver)}
+.tag-pop{position:absolute;top:-12px;right:20px;background:var(--red);color:#fff;font-family:var(--f-head);font-weight:700;font-size:.72rem;padding:5px 11px;border-radius:999px}
+.chips-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.chips-row span{font-family:var(--f-mono);font-size:.78rem;padding:7px 13px;border-radius:999px;background:var(--white);border:1px solid var(--rule);color:var(--ink)}
+.more{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-head);font-weight:700;font-size:.92rem;color:#fff;background:var(--navy);padding:11px 20px;border-radius:999px;text-decoration:none;align-self:flex-start}
+.more:hover{background:var(--navy-3)}
+.links-row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center}
+.dl{flex:none;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font-family:var(--f-head);font-weight:700;font-size:.9rem;text-decoration:none;color:var(--ink);border:1.5px solid var(--rule);background:var(--white);padding:10px 18px;border-radius:999px;white-space:nowrap}
+.dl:hover{border-color:var(--ink)}
+.dl small{font-family:var(--f-mono);font-weight:500;font-size:.68rem;color:var(--steel)}
+.pp-hero .dl{background:rgba(16,28,44,.35);color:#fff;border-color:rgba(255,255,255,.4);padding:15px 24px;font-size:.95rem}
+.pp-hero .dl:hover{border-color:#fff}
+.pp-hero .btns > *{flex:none}
+.pp-hero .dl small{color:rgba(255,255,255,.65)}
+</style>
+</head>
+<body>
+<header class="top" id="top-bar">
+  <div class="wrap">
+    <a class="brand" href="#home" aria-label="TerraQ home"><img src="terraq-logo.png" alt="TerraQ"></a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="nav" id="nav" data-open="false">
+      <a href="#products">Products<span class="new">NEW</span></a>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#contact" class="btn red">Talk to us</a>
+    </nav>
+  </div>
+</header>
+
+<div id="home-view">
+<section class="hero" id="home">
+  <div class="bg"><img src="img/drone-survey.jpg" alt=""></div>
+  <div class="wrap">
+    <div>
+      <span class="badge">Geo-data intelligence &amp; digital earth systems</span>
+      <h1>Intelligence beneath the surface<em>.</em></h1>
+      <p class="lede">TerraQ combines geology, geotechnical engineering and data intelligence for mining and environmental work. From field data to intelligent decisions.</p>
+      <div class="btns">
+        <a class="btn red" href="#products">See our products <span class="arr">→</span></a>
+        <a class="btn line" href="#services">Explore our services</a>
+      </div>
+      <div class="points">
+        <span><b>Geology</b>&nbsp;and hydrogeology</span>
+        <span><b>Geotechnical</b>&nbsp;stability</span>
+        <span><b>Data systems</b>&nbsp;and dashboards</span>
+      </div>
+    </div>
+    <div class="instruments" aria-hidden="true">
+      <div class="glass g1">
+        <div class="gl"><span>Groundwater contours</span><b>LIVE MODEL</b></div>
+        <canvas id="contours"></canvas>
+      </div>
+      <div class="glass g2">
+        <div class="gl"><span>BH-07 nitrate</span><b>mg/L</b></div>
+        <svg viewBox="0 0 200 70"><line x1="0" y1="14" x2="200" y2="14" stroke="#E3172F" stroke-dasharray="4 3"/><polyline fill="none" stroke="#4FA3E0" stroke-width="2.5" stroke-linejoin="round" points="0,58 20,56 40,59 60,52 80,49 100,47 120,40 140,34 160,28 180,22 196,18"/><circle cx="196" cy="18" r="4.5" fill="#F2A93B"/></svg>
+        <div class="gl" style="margin:8px 0 0"><span>Trend to limit</span><b>~2 months</b></div>
+      </div>
+      <div class="glass g3">
+        <div class="gl"><span>Bench status</span><b>West Pit</b></div>
+        <div style="display:grid;gap:6px;font-size:.82rem">
+          <div><span class="dot" style="background:var(--green)"></span>WP-422 Released</div>
+          <div><span class="dot" style="background:var(--amber)"></span>WP-421 Controls in place</div>
+          <div><span class="dot" style="background:var(--red)"></span>WP-420 STOP WORK</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true">
+  <div class="track" id="track">
+    <span>SlopeTraq</span><span>AquaWatch</span><span>Scrap Metal Intelligence</span><span>TerraQ ESG</span><span>Data Centre Site Assessment</span><span>Geology</span><span>Hydrogeology</span><span>Geotechnical</span><span>GIS &amp; Spatial</span><span>Dashboards</span>
+  </div>
+</div>
+
+<section class="band light" id="products">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="kicker">Products</span>
+        <h2 style="margin-top:14px">Built from the field up<em>.</em></h2>
+      </div>
+      <p>Four products and one specialist service. Each one delivers ground, water and compliance data that is checked, structured and ready to act on.</p>
+    </div>
+
+    <div class="pills" role="tablist" aria-label="TerraQ products">
+      <button class="pill" role="tab" id="t-slopetraq" aria-controls="p-slopetraq" aria-selected="true" tabindex="0">SlopeTraq <small>App</small></button>
+      <button class="pill" role="tab" id="t-aquawatch" aria-controls="p-aquawatch" aria-selected="false" tabindex="-1">AquaWatch <small>Water</small></button>
+      <button class="pill" role="tab" id="t-metals" aria-controls="p-metals" aria-selected="false" tabindex="-1">Scrap Metal Intelligence <small>Data</small></button>
+      <button class="pill" role="tab" id="t-esg" aria-controls="p-esg" aria-selected="false" tabindex="-1">TerraQ ESG <small>Compliance</small></button>
+      <button class="pill" role="tab" id="t-datacentre" aria-controls="p-datacentre" aria-selected="false" tabindex="-1">Data Centre Site Assessment <small>Service</small></button>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-slopetraq" aria-labelledby="t-slopetraq">
+      <div class="txt">
+        <span class="status" style="--c:var(--green)"><i></i>Live platform</span>
+        <h3>Slope<em>Traq</em></h3>
+        <p class="pitch">The system of record for slope and dump stability, from the bench inspection to the release decision.</p>
+        <ul class="steps">
+          <li><span><b>Inspect.</b> Structured inspections at the bench on a phone or tablet, with or without signal.</span></li>
+          <li><span><b>Assess.</b> Each deviation is classed A, B or C against the mine's own criteria.</span></li>
+          <li><span><b>Control.</b> Corrective actions get an owner and a due date, with STOP WORK enforced.</span></li>
+          <li><span><b>Release.</b> A block returns to work only when the Rock Engineer releases it on the record.</span></li>
+        </ul>
+        <dl class="meta">
+          <div><dt>Built for</dt><dd>Open pits and waste rock dumps</dd></div>
+          <div><dt>Includes</dt><dd>3D block status, audit trail, reporting</dd></div>
+        </dl>
+        <p class="note">Underground module in development.</p>
+        <a class="tlink" href="https://slopecheck-production.up.railway.app/" target="_blank" rel="noopener">Visit the SlopeTraq site →</a>
+        <a class="dl" href="downloads/TerraQ-SlopeTraq.pdf" download><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>Download product sheet <small>PDF</small></a>
+      </div>
+      <div class="pic">
+        <img src="img/pit-dusk.jpg" alt="Open-pit mine at dusk with haul trucks on the ramp">
+        <div class="glass">
+          <div class="gl"><span>Block status · West Pit</span><b>Today</b></div>
+          <svg viewBox="0 0 360 70"><g font-family="IBM Plex Mono, monospace" font-size="10"><rect x="0" y="6" width="112" height="26" rx="6" fill="rgba(53,196,111,.25)" stroke="#35C46F"/><text x="10" y="23" fill="#fff">WP-422 · STABLE</text><rect x="122" y="6" width="116" height="26" rx="6" fill="rgba(242,169,59,.25)" stroke="#F2A93B"/><text x="131" y="23" fill="#fff">WP-421 · CONTROLS</text><rect x="248" y="6" width="112" height="26" rx="6" fill="rgba(227,23,47,.3)" stroke="#E3172F"/><text x="256" y="23" fill="#fff">WP-420 · STOP</text><text x="0" y="56" fill="rgba(255,255,255,.75)">2 open Class A deviations · awaiting Rock Engineer</text></g></svg>
+          <div class="cap">Illustrative example</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-aquawatch" aria-labelledby="t-aquawatch" hidden>
+      <div class="txt">
+        <span class="status" style="--c:var(--green)"><i></i>Available now</span>
+        <h3>Aqua<em>Watch</em></h3>
+        <p class="pitch">Managed checking of your water monitoring data, so problems surface before the auditor finds them.</p>
+        <ul class="steps">
+          <li><span><b>Validate.</b> Every groundwater level and water quality result checked for errors, gaps and outliers.</span></li>
+          <li><span><b>Compare.</b> Results tested against SANS 241 and your water use licence conditions.</span></li>
+          <li><span><b>Warn.</b> Early alerts when a borehole trends towards a limit.</span></li>
+          <li><span><b>Report.</b> A live dashboard and a monthly compliance report.</span></li>
+        </ul>
+        <dl class="meta">
+          <div><dt>Built for</dt><dd>Mines and industrial sites with licence monitoring conditions</dd></div>
+          <div><dt>Format</dt><dd>Managed service, tiered monthly plans</dd></div>
+        </dl>
+        <a class="more" href="#product-aquawatch">Read more about AquaWatch →</a>
+        <a class="dl" href="downloads/TerraQ-AquaWatch.pdf" download><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>Download product sheet <small>PDF</small></a>
+      </div>
+      <div class="pic">
+        <img src="img/field-team.jpg" alt="Two field engineers reviewing data on a tablet at a mine">
+        <div class="glass">
+          <div class="gl"><span>BH-07 · nitrate as N</span><b>SANS 241 limit 11 mg/L</b></div>
+          <svg viewBox="0 0 360 90"><line x1="0" y1="16" x2="360" y2="16" stroke="#E3172F" stroke-dasharray="5 4"/><polyline fill="none" stroke="#4FA3E0" stroke-width="2.5" stroke-linejoin="round" points="0,76 32,73 64,78 96,68 128,63 160,62 192,53 224,45 256,37 288,29 320,23 352,19"/><circle cx="352" cy="19" r="5" fill="#F2A93B" stroke="#101C2C" stroke-width="2"/><text x="0" y="88" font-family="IBM Plex Mono, monospace" font-size="10" fill="rgba(255,255,255,.7)">Jan</text><text x="360" y="88" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#F2A93B">Flag · 10.2 mg/L</text></svg>
+          <div class="cap">Illustrative example</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-metals" aria-labelledby="t-metals" hidden>
+      <div class="txt">
+        <span class="status" style="--c:var(--amber)"><i></i>Early access</span>
+        <h3>Scrap Metal <em>Intelligence</em></h3>
+        <p class="pitch">Structured market data on South Africa's secondary metals, updated every week.</p>
+        <ul class="steps">
+          <li><span><b>Prices.</b> Weekly scrap prices by grade: copper, aluminium, brass, stainless steel and more.</span></li>
+          <li><span><b>Permits.</b> Export permit tracking from ITAC records.</span></li>
+          <li><span><b>Yards.</b> A registry of scrap yards across South Africa.</span></li>
+          <li><span><b>Flows.</b> Commodity flow data for forecasting supply.</span></li>
+        </ul>
+        <dl class="meta">
+          <div><dt>Built for</dt><dd>Recyclers, traders, smelters and commodity forecasters</dd></div>
+          <div><dt>Format</dt><dd>Online portal, tiered subscriptions</dd></div>
+        </dl>
+        <a class="more" href="#product-metals">Read more about Scrap Metal Intelligence →</a>
+        <a class="dl" href="downloads/TerraQ-Scrap-Metal-Intelligence.pdf" download><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>Download product sheet <small>PDF</small></a>
+      </div>
+      <div class="pic">
+        <img src="img/haul-truck.jpg" alt="Haul truck under a stormy sky on a mine road">
+        <div class="glass">
+          <div class="gl"><span>Copper No.1 · R/kg</span><b>12 weeks</b></div>
+          <svg viewBox="0 0 360 80"><g fill="rgba(201,207,216,.45)"><rect x="0" y="46" width="22" height="34" rx="3"/><rect x="30" y="40" width="22" height="40" rx="3"/><rect x="60" y="43" width="22" height="37" rx="3"/><rect x="90" y="34" width="22" height="46" rx="3"/><rect x="120" y="37" width="22" height="43" rx="3"/><rect x="150" y="28" width="22" height="52" rx="3"/><rect x="180" y="22" width="22" height="58" rx="3"/><rect x="210" y="25" width="22" height="55" rx="3"/><rect x="240" y="16" width="22" height="64" rx="3"/><rect x="270" y="10" width="22" height="70" rx="3"/><rect x="300" y="13" width="22" height="67" rx="3"/></g><rect x="330" y="4" width="22" height="76" rx="3" fill="#E3172F"/></svg>
+          <div class="cap">Illustrative example, not live prices</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-esg" aria-labelledby="t-esg" hidden>
+      <div class="txt">
+        <span class="status" style="--c:var(--amber)"><i></i>Interactive demo</span>
+        <h3>TerraQ <em>ESG</em></h3>
+        <p class="pitch">Every disclosure line traced down to the document that proves it.</p>
+        <ul class="steps">
+          <li><span><b>Obligations.</b> Every condition in your WUL, EA, WML, AEL and SLP in one register, with owner, frequency and due date.</span></li>
+          <li><span><b>Evidence.</b> Lab certificates, logger exports and reports filed against the conditions they serve, with accreditation expiry tracked.</span></li>
+          <li><span><b>Disclosure.</b> GRI, SASB, ICMM and JSE figures built from that evidence, showing which numbers are provable and which document is missing.</span></li>
+          <li><span><b>Audit trail.</b> An append-only log your assurance provider can read.</span></li>
+        </ul>
+        <dl class="meta">
+          <div><dt>Built for</dt><dd>SHEQ managers, sustainability leads and assurance providers</dd></div>
+          <div><dt>Frameworks</dt><dd>GRI 2021, SASB EM-MM, ICMM, JSE guidance</dd></div>
+        </dl>
+        <div class="links-row"><a class="more" href="#product-esg">Read more about TerraQ ESG →</a><a class="tlink" href="esg/" target="_blank" rel="noopener">Open the interactive demo →</a></div>
+        <a class="dl" href="downloads/TerraQ-ESG.pdf" download><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>Download product sheet <small>PDF</small></a>
+      </div>
+      <div class="pic">
+        <img src="img/control-room.jpg" alt="Operator reviewing mining dashboards">
+        <div class="glass">
+          <div class="gl"><span>Assurance chain · demo site</span><b>FY2026 Q3</b></div>
+          <svg viewBox="0 0 360 96" role="img" aria-label="Three-layer chain from disclosures to licence conditions to evidence, with complete, partial and broken links">
+            <g font-family="IBM Plex Mono, monospace" font-size="8.5" fill="rgba(255,255,255,.6)"><text x="0" y="8">DISCLOSURE</text><text x="0" y="50">CONDITIONS</text><text x="0" y="92">EVIDENCE</text></g>
+            <g stroke-width="1.6" fill="none">
+              <path d="M110 18 C110 30 95 30 95 40" stroke="#3FA97A"/><path d="M110 18 C110 30 150 30 150 40" stroke="#3FA97A"/>
+              <path d="M200 18 C200 30 205 30 205 40" stroke="#DCA22C" stroke-dasharray="4 3"/><path d="M290 18 C290 30 260 30 260 40" stroke="#E1121A" stroke-dasharray="2 3"/>
+              <path d="M95 54 C95 66 85 66 85 76" stroke="#3FA97A"/><path d="M150 54 C150 66 130 66 130 76" stroke="#3FA97A"/><path d="M205 54 C205 66 185 66 185 76" stroke="#3FA97A"/><path d="M205 54 C205 66 235 66 235 76" stroke="#DCA22C" stroke-dasharray="4 3"/><path d="M260 54 C260 66 290 66 290 76" stroke="#E1121A" stroke-dasharray="2 3"/>
+            </g>
+            <g stroke-width="1.2"><rect x="88" y="6" width="44" height="12" rx="2" fill="#1B1D21" stroke="#3FA97A"/><rect x="178" y="6" width="44" height="12" rx="2" fill="#1B1D21" stroke="#DCA22C"/><rect x="268" y="6" width="44" height="12" rx="2" fill="#1B1D21" stroke="#E1121A"/>
+            <rect x="76" y="40" width="38" height="14" rx="2" fill="#1B1D21" stroke="#3A3F45"/><rect x="131" y="40" width="38" height="14" rx="2" fill="#1B1D21" stroke="#3A3F45"/><rect x="186" y="40" width="38" height="14" rx="2" fill="#1B1D21" stroke="#3A3F45"/><rect x="241" y="40" width="38" height="14" rx="2" fill="#1B1D21" stroke="#3A3F45"/>
+            <rect x="72" y="76" width="26" height="12" rx="2" fill="#1B1D21" stroke="#3A3F45"/><rect x="117" y="76" width="26" height="12" rx="2" fill="#1B1D21" stroke="#3A3F45"/><rect x="172" y="76" width="26" height="12" rx="2" fill="#1B1D21" stroke="#3A3F45"/><rect x="222" y="76" width="26" height="12" rx="2" fill="#2A1618" stroke="#6E2226"/><rect x="277" y="76" width="26" height="12" rx="2" fill="#2A1618" stroke="#6E2226"/></g>
+          </svg>
+          <div class="gl" style="margin:8px 0 0"><span>Conditions with no document</span><b>11 of 62</b></div>
+          <div class="cap">Demonstration data, fictional site</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-datacentre" aria-labelledby="t-datacentre" hidden>
+      <div class="txt">
+        <span class="status" style="--c:var(--red)"><i></i>New service</span>
+        <h3>Data Centre <em>Site Assessment</em></h3>
+        <p class="pitch">We tell data centre developers early whether a site's ground and water will support a facility for 20 years or more, before they commit capital.</p>
+        <ul class="steps">
+          <li><span><b>Dolomite.</b> Sinkhole and subsidence risk assessed to SANS 1936.</span></li>
+          <li><span><b>Foundations.</b> Geotechnical investigation for data halls, substations and generator yards.</span></li>
+          <li><span><b>Water.</b> Borehole siting, test pumping, sustainable yield and water quality for cooling.</span></li>
+          <li><span><b>Licensing.</b> Flood lines and water use licence support, with partner specialists.</span></li>
+        </ul>
+        <dl class="meta">
+          <div><dt>Built for</dt><dd>Colocation developers, cloud site-selection teams and engineers</dd></div>
+          <div><dt>First step</dt><dd>Fixed-fee desktop screening of 2 to 5 candidate sites</dd></div>
+        </dl>
+        <a class="more" href="#product-datacentre">Read more about the service →</a>
+        <a class="dl" href="downloads/TerraQ-Data-Centre-Site-Assessment.pdf" download><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>Download product sheet <small>PDF</small></a>
+      </div>
+      <div class="pic">
+        <img src="img/geologist-tablet.jpg" alt="Geologist reviewing a site model on a tablet overlooking a mine at night">
+        <div class="glass">
+          <div class="gl"><span>Candidate sites · screening</span><b>Week 3</b></div>
+          <div style="display:grid;gap:7px;font-size:.84rem">
+            <div style="display:flex;justify-content:space-between;gap:10px"><span><span class="dot" style="background:var(--green)"></span>Site 1 · non-dolomite, municipal water</span><b>GO</b></div>
+            <div style="display:flex;justify-content:space-between;gap:10px"><span><span class="dot" style="background:var(--amber)"></span>Site 2 · part dolomite, needs zoning</span><b>INVESTIGATE</b></div>
+            <div style="display:flex;justify-content:space-between;gap:10px"><span><span class="dot" style="background:var(--red)"></span>Site 3 · inside 1:100 flood line</span><b>NO GO</b></div>
+          </div>
+          <div class="cap">Illustrative example</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band dark" id="services">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="kicker">Services</span>
+        <h2 style="margin-top:14px">Integrated geoscience and digital solutions<em>.</em></h2>
+      </div>
+      <p>For the mining and environmental sectors, from the logging table to the boardroom dashboard.</p>
+    </div>
+    <div class="divs">
+      <article class="dcard">
+        <div class="ph"><img src="img/underground.jpg" alt="Geologist sampling a rock face underground"><span class="tag">FIELD</span><h3>TerraQ Geo</h3></div>
+        <div class="body">
+          <p>Geoscience done properly at the source.</p>
+          <div class="svc">
+            <div><h4>Geology</h4><ul><li>Drillhole logging and QA/QC</li><li>Geological interpretation and mapping</li><li>Resource data preparation</li></ul></div>
+            <div><h4>Hydrogeology</h4><ul><li>Groundwater monitoring</li><li>Pump testing and aquifer modelling</li><li>Dewatering assessments</li></ul></div>
+            <div><h4>Geotechnical</h4><ul><li>RQD and rock mass classification</li><li>Structural and fracture analysis</li><li>Slope stability</li></ul></div>
+            <div><h4>GIS &amp; spatial</h4><ul><li>GIS database creation</li><li>Environmental mapping</li><li>Spatial data integration</li></ul></div>
+          </div>
+        </div>
+      </article>
+      <article class="dcard">
+        <div class="ph"><img src="img/control-room.jpg" alt="Operator in front of TerraQ mining dashboards"><span class="tag">DIGITAL</span><h3>TerraQ Digital</h3></div>
+        <div class="body">
+          <p>Turning field data into systems people use.</p>
+          <div class="svc">
+            <div><h4>Data management</h4><ul><li>Geo-database design</li><li>Data migration and cleaning</li><li>Cloud data systems</li></ul></div>
+            <div><h4>Dashboards</h4><ul><li>Exploration dashboards</li><li>Environmental monitoring</li><li>Executive reporting</li></ul></div>
+            <div><h4>Analytics</h4><ul><li>Geological and hydro data analysis</li><li>Time-series monitoring</li><li>Decision-support tools</li></ul></div>
+            <div><h4>Data integrity</h4><ul><li>Secure cloud environments</li><li>Controlled access, encryption and backups</li><li>Monitoring and audit systems</li></ul></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band light" id="about">
+  <div class="wrap about">
+    <div class="photo">
+      <img src="img/field-team.jpg" alt="TerraQ field engineers reviewing data on site">
+      <div class="glass">
+        <div class="leader"><div class="init">MN</div><div><b>Mothae Namane</b><span style="color:rgba(255,255,255,.75);font-size:.9rem">Founder &amp; CEO</span></div></div>
+      </div>
+    </div>
+    <div>
+      <span class="kicker">About TerraQ</span>
+      <h2 style="margin-top:14px">What makes TerraQ different<em>.</em></h2>
+      <p class="big">A geoscience and digital solutions company that links field data to decision-making through structured data systems, analytics and cloud platforms.</p>
+      <ul class="why">
+        <li><b>Integrated expertise</b><span>Geology, hydrogeology, geotechnics and data under one roof.</span></li>
+        <li><b>Field to cloud</b><span>From the logging table to the dashboard.</span></li>
+        <li><b>Secure and compliant</b><span>Built for audit, access control and POPIA.</span></li>
+        <li><b>Africa-focused</b><span>Local delivery, global standards.</span></li>
+      </ul>
+      <div class="vision"><span class="kicker">Our vision</span><p>To become a leading geo-data intelligence company serving the mining and environmental industries across Africa.</p></div>
+      <div class="industries"><span>Mineral exploration</span><span>Junior and mid-tier mining</span><span>Geological consultancies</span><span>Environmental services</span><span>Contract exploration</span><span>Data centre developers</span></div>
+    </div>
+  </div>
+</section>
+
+</div>
+<!-- ===================== PRODUCT PAGES ===================== -->
+<div id="product-pages">
+
+<!-- AquaWatch -->
+<article class="ppage" id="pg-aquawatch" hidden>
+  <header class="pp-hero">
+    <div class="bg"><img src="img/field-team.jpg" alt=""></div>
+    <div class="wrap">
+      <a class="back" href="#products">← All products</a>
+      <span class="status dark" style="--c:var(--green)"><i></i>Available now</span>
+      <h1>Aqua<em>Watch</em></h1>
+      <p class="pp-lede">Water monitoring data you can defend. AquaWatch checks every groundwater level and water quality result your site produces, compares it with your licence limits, and tells you what needs attention before the auditor does.</p>
+      <div class="btns"><a class="btn red" href="#contact">Request the service proposal <span class="arr">→</span></a><a class="btn line" href="#aw-how">How it works</a><a class="dl" href="downloads/TerraQ-AquaWatch.pdf" download><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>Download product sheet <small>PDF</small></a></div>
+    </div>
+  </header>
+
+  <section class="band light">
+    <div class="wrap split">
+      <div><span class="kicker">The problem</span><h2 style="margin-top:14px">Most sites collect the data. Few check it<em>.</em></h2></div>
+      <ul class="pains">
+        <li><b>Data arrives in pieces.</b> Lab certificates, logger exports and field sheets come in different formats and are pasted into spreadsheets by hand.</li>
+        <li><b>Errors surface at audit.</b> Wrong units, swapped borehole IDs and missed samples are found months later, when they are hardest to fix.</li>
+        <li><b>Exceedances are seen too late.</b> A borehole trending towards its limit is noticed after the quarterly report, not before.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band dark" id="aw-how">
+    <div class="wrap">
+      <span class="kicker">How it works</span><h2 style="margin-top:14px">From lab certificate to compliance report<em>.</em></h2>
+      <ol class="flow4">
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 4h10l6 6v10H4z"/><path d="M14 4v6h6"/></svg></span><h3>Collect</h3><p>We take the data you already have: SANAS lab certificates, datalogger exports and field sheets. No new hardware.</p></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></span><h3>Validate</h3><p>QA/QC on every result: gaps, duplicates, unit errors, outliers against the borehole's own history, and ion-balance checks on full chemistry.</p></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 19h16"/><path d="M4 9h16" stroke-dasharray="3 3"/><path d="M5 16l4-3 3 2 5-6 2 1"/></svg></span><h3>Compare</h3><p>Each result is tested against SANS 241 and the limits and conditions in your water use licence.</p></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 14v2M12 10v6M16 12v4"/></svg></span><h3>Report</h3><p>A live dashboard, early warnings when a borehole trends towards a limit, and a monthly compliance report reviewed by a hydrogeologist.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band light">
+    <div class="wrap showcase">
+      <div class="mock dark-mock" aria-label="Illustrative AquaWatch dashboard">
+        <div class="mock-bar"><span>AquaWatch · demo site</span><span>Monthly check · August</span></div>
+        <div class="mock-kpis"><div><b>24</b><span>boreholes</span></div><div><b>1 186</b><span>results checked</span></div><div><b>7</b><span>QA flags</span></div><div class="warn"><b>1</b><span>near limit</span></div></div>
+        <div class="mock-flags">
+          <div><i style="background:var(--amber)"></i><b>BH-12</b> EC entered in µS/cm, expected mS/m · corrected</div>
+          <div><i style="background:var(--red)"></i><b>BH-04</b> Q3 sample missing from lab batch</div>
+          <div><i style="background:var(--amber)"></i><b>BH-07</b> Nitrate 10.2 mg/L, trending to the 11 mg/L limit</div>
+          <div><i style="background:var(--amber)"></i><b>BH-09</b> Ion balance error 11 %, re-analysis requested</div>
+          <div><i style="background:var(--green)"></i><b>BH-01–03</b> All results valid and within limits</div>
+        </div>
+        <div class="cap">Illustrative example, not client data</div>
+      </div>
+      <div>
+        <span class="kicker">What you get</span><h2 style="margin-top:14px">Checked data, every month<em>.</em></h2>
+        <ul class="steps" style="margin-top:20px">
+          <li><span><b>A flag list, not a data dump.</b> Every problem named, with the borehole, the result and what was done about it.</span></li>
+          <li><span><b>Licence-ready reporting.</b> Monthly and quarterly reports laid out against your licence conditions.</span></li>
+          <li><span><b>Your history, cleaned.</b> Onboarding loads and checks your historical records, so trends start from day one.</span></li>
+          <li><span><b>A person behind it.</b> Flags are reviewed by a hydrogeologist before they reach you.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="band dark">
+    <div class="wrap showcase rev">
+      <div>
+        <span class="status dark" style="--c:var(--amber)"><i></i>In development</span>
+        <h2 style="margin-top:16px">AquaWatch <em>3D</em></h2>
+        <p class="pp-p">Your boreholes, water levels and geology in one three-dimensional model of the site. See the water table surface, how it moves between seasons, and where a plume may be heading, alongside the checked data that drives it.</p>
+        <p class="pp-p" style="color:var(--steel)">Built on the TerraQ HydroFrame model viewer.</p>
+      </div>
+      <div class="mock" aria-label="Illustrative 3D model of geological layers and boreholes">
+        <svg viewBox="0 0 420 260">
+          <rect width="420" height="260" fill="#0B1420"/>
+          <polygon points="40,90 250,40 380,90 170,140" fill="#2B4163" opacity=".9"/>
+          <polygon points="40,90 170,140 170,175 40,125" fill="#22385A"/><polygon points="170,140 380,90 380,125 170,175" fill="#1B2D49"/>
+          <polygon points="40,125 170,175 170,215 40,165" fill="#5A4A3A"/><polygon points="170,175 380,125 380,165 170,215" fill="#4A3C2F"/>
+          <polygon points="40,165 170,215 170,240 40,190" fill="#5B6878"/><polygon points="170,215 380,165 380,190 170,240" fill="#4C5767"/>
+          <path d="M40,118 C110,128 150,150 170,158 C240,142 320,112 380,108" fill="none" stroke="#5AB4F0" stroke-width="2.5"/>
+          <g stroke="#E4E9F0" stroke-width="2"><line x1="110" y1="88" x2="110" y2="175"/><line x1="230" y1="78" x2="230" y2="180"/><line x1="315" y1="85" x2="315" y2="150"/></g>
+          <g fill="#E3172F"><circle cx="110" cy="88" r="4"/><circle cx="230" cy="78" r="4"/><circle cx="315" cy="85" r="4"/></g>
+          <g font-family="IBM Plex Mono, monospace" font-size="10" fill="#C9CFD8"><text x="96" y="78">BH-01</text><text x="216" y="68">BH-07</text><text x="301" y="75">BH-12</text><text x="250" y="200" fill="#8B95A5">weathered shale</text><text x="296" y="111" fill="#5AB4F0">water table</text></g>
+        </svg>
+        <div class="cap" style="padding:0 14px 12px">Illustrative example</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band light">
+    <div class="wrap two">
+      <div class="info"><span class="kicker">Built for</span><ul class="ticks"><li>Mines and quarries with water use licence monitoring conditions</li><li>Industrial sites and landfills with groundwater monitoring networks</li><li>Environmental consultants who want an independent second check</li></ul></div>
+      <div class="info"><span class="kicker">How you buy it</span><p class="pp-p" style="color:var(--ink-2)">Monthly plans priced by the number of monitoring points and how often they are sampled. Onboarding includes loading your historical data and licence limits.</p><a class="btn red" href="#contact" style="margin-top:18px">Request the service proposal <span class="arr">→</span></a></div>
+    </div>
+  </section>
+</article>
+
+<!-- Data Centre Site Assessment -->
+<article class="ppage" id="pg-datacentre" hidden>
+  <header class="pp-hero">
+    <div class="bg"><img src="img/geologist-tablet.jpg" alt=""></div>
+    <div class="wrap">
+      <a class="back" href="#products">← All products</a>
+      <span class="status dark" style="--c:var(--red)"><i></i>New service</span>
+      <h1>Data Centre <em>Site Assessment</em></h1>
+      <p class="pp-lede">We tell data centre developers early whether a site's ground and water will support a facility for 20 years or more, before they commit capital.</p>
+      <div class="btns"><a class="btn red" href="#contact">Send us your candidate sites <span class="arr">→</span></a><a class="btn line" href="#dc-phases">How an engagement runs</a><a class="dl" href="downloads/TerraQ-Data-Centre-Site-Assessment.pdf" download><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>Download product sheet <small>PDF</small></a></div>
+    </div>
+  </header>
+
+  <section class="band light">
+    <div class="wrap split">
+      <div><span class="kicker">The problem</span><h2 style="margin-top:14px">In South Africa, the hard constraints are underground<em>.</em></h2></div>
+      <ul class="pains">
+        <li><b>Dolomite.</b> Large parts of Gauteng sit on dolomite, where cavities and sinkholes can open beneath a building. It must be assessed to SANS 1936 before layout is fixed.</li>
+        <li><b>Water for cooling.</b> Peak cooling demand arrives on the hottest days, exactly when municipal supply is under most strain.</li>
+        <li><b>Flood lines and licences.</b> Building inside a flood line is restricted, and water use licences often sit on the critical path.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band dark" id="dc-phases">
+    <div class="wrap">
+      <span class="kicker">How an engagement runs</span><h2 style="margin-top:14px">Stop early, or go deep<em>.</em></h2>
+      <ol class="flow4 three">
+        <li><span class="ic num">1</span><h3>Desktop screening</h3><p class="mono-s">2–3 weeks · fixed fee</p><p>Geology, dolomite records, groundwater archives, flood risk and municipal supply for 2 to 5 candidate sites. Each site rated red, amber or green, with a clear go or no-go.</p></li>
+        <li><span class="ic num">2</span><h3>Site investigation</h3><p class="mono-s">6–12 weeks per site · quoted</p><p>Gravity survey, percussion and core drilling, test pits, laboratory testing, borehole siting and test pumping. Ends with a recommended layout.</p></li>
+        <li><span class="ic num">3</span><h3>Ongoing monitoring</h3><p class="mono-s">Monthly · through AquaWatch</p><p>Groundwater levels, abstraction and water quality checked every month, with ESG water metrics for investor reporting.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band light">
+    <div class="wrap">
+      <span class="kicker">What we assess</span><h2 style="margin-top:14px">Ground, water and the paperwork<em>.</em></h2>
+      <div class="assess">
+        <div><h3>Dolomite stability</h3><p>Gravity survey, percussion drilling and hazard zoning to SANS 1936-2, with competent-person sign-off and Council for Geoscience review.</p></div>
+        <div><h3>Foundations</h3><p>Test pits, core drilling and laboratory testing. Founding depth, bearing pressure and settlement for data halls, substations and generator yards.</p></div>
+        <div><h3>Water supply</h3><p>Borehole siting, test pumping to SANS 10299-4, sustainable yield and the water quality your cooling plant will need to treat.</p></div>
+        <div><h3>Cable and earthing data</h3><p>Soil thermal resistivity along buried power routes and soil resistivity for earth-grid design, supplied to your electrical engineer.</p></div>
+        <div><h3>Flood lines</h3><p>1:50 and 1:100 year flood lines and stormwater design, delivered with partner hydrologists.</p></div>
+        <div><h3>Licensing support</h3><p>Technical inputs for water use licences and environmental authorisation, prepared early so they stay off the critical path.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band dark">
+    <div class="wrap showcase">
+      <figure class="mock light-mock"><img src="img/dc-layout.png" alt="Demo site plan showing non-dolomite, low-hazard and high-hazard zones with data halls placed on the safe zone"><figcaption class="cap" style="color:var(--steel);padding:10px 14px">Worked example on a fictional site: data halls and substation on non-dolomite ground, high-hazard dolomite left open.</figcaption></figure>
+      <div>
+        <span class="kicker">The real deliverable</span><h2 style="margin-top:14px">Where each building should go<em>.</em></h2>
+        <p class="pp-p">Every result goes into one site model. Heavy, settlement-sensitive structures are placed where the ground can carry them, wet services are kept off unstable dolomite, and the client sees exactly how much of the site stays usable.</p>
+        <p class="pp-p" style="color:var(--steel)">Reports that need a professional signature are co-signed by registered partner specialists.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band light">
+    <div class="wrap two">
+      <div class="info"><span class="kicker">Built for</span><ul class="ticks"><li>Colocation and hyperscale data centre developers</li><li>Cloud provider site-selection teams</li><li>Engineering firms delivering data centre builds</li><li>Property funds converting industrial land</li><li>Edge data centre operators in secondary towns</li></ul></div>
+      <div class="info"><span class="kicker">First step</span><p class="pp-p" style="color:var(--ink-2)">Send us the coordinates or erf numbers of your candidate sites. We'll confirm the scope and a fixed fee for the desktop screening.</p><a class="btn red" href="#contact" style="margin-top:18px">Start a screening <span class="arr">→</span></a></div>
+    </div>
+  </section>
+</article>
+
+<!-- Scrap Metal Intelligence -->
+<article class="ppage" id="pg-metals" hidden>
+  <header class="pp-hero">
+    <div class="bg"><img src="img/haul-truck.jpg" alt=""></div>
+    <div class="wrap">
+      <a class="back" href="#products">← All products</a>
+      <span class="status dark" style="--c:var(--amber)"><i></i>Early access</span>
+      <h1>Scrap Metal <em>Intelligence</em></h1>
+      <p class="pp-lede">A structured data feed on South Africa's secondary-metal flows: yards, monthly volumes, weekly prices and export permits. Built for forecasters and mining houses who need to model scrap supply.</p>
+      <div class="btns"><a class="btn red" href="#contact">Request early access <span class="arr">→</span></a><a class="btn line" href="#sm-tiers">See the tiers</a><a class="dl" href="downloads/TerraQ-Scrap-Metal-Intelligence.pdf" download><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>Download product sheet <small>PDF</small></a></div>
+      <div class="pp-stats"><div><b>4–6 Mt</b><span>scrap generated in SA each year</span></div><div><b>25–35%</b><span>of SA ferrous steel feedstock from scrap</span></div><div><b>4</b><span>integrated data layers</span></div></div>
+    </div>
+  </header>
+
+  <section class="band light">
+    <div class="wrap">
+      <span class="kicker">The dataset</span><h2 style="margin-top:14px">Four layers, each feeding the next<em>.</em></h2>
+      <div class="assess four">
+        <div><h3>Yard registry</h3><p>South African scrap yards with GPS, MRA membership, metals handled, estimated monthly tonnage and downstream buyers.</p></div>
+        <div><h3>Commodity flows</h3><p>Monthly inflow and outflow by metal, to mills, foundries, smelters and export. Ferrous, non-ferrous, PGMs and battery metals tracked separately.</p></div>
+        <div><h3>Price intelligence</h3><p>Weekly ZAR/kg benchmark prices for 12 metals against LME USD/t reference rates and the ZAR/USD exchange rate.</p></div>
+        <div><h3>Export permits</h3><p>ITAC Price Preference System applications: yard, metal, volume, decision and whether local industry took up the first right of refusal.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band dark" id="sm-tiers">
+    <div class="wrap">
+      <span class="kicker">Subscription tiers</span><h2 style="margin-top:14px">Three tiers, one platform<em>.</em></h2>
+      <p class="pp-p" style="color:var(--steel)">Every tier connects through the same secure API, from Excel, Python or any HTTP client. Start with a demo account on sample data.</p>
+      <div class="tiers">
+        <div class="tier"><span class="tn">Signal</span><b class="price">R 4,500<small>/month</small></b><p>For traders and brokers who need price signals and market direction.</p><ul class="ticks"><li>8 core metals</li><li>Weekly benchmark prices in ZAR/kg</li><li>Top 5 highest-volume MRA yards</li><li>Monthly flows for the top 5 yards</li></ul></div>
+        <div class="tier hot"><span class="tag-pop">Most popular</span><span class="tn">Professional</span><b class="price">R 12,000<small>/month</small></b><p>For analysts tracking supply chains and export flows.</p><ul class="ticks"><li>10 metals, including stainless grades</li><li>All MRA-registered yards</li><li>Monthly flows with export destinations</li><li>Full ITAC permit data</li></ul></div>
+        <div class="tier"><span class="tn">Enterprise</span><b class="price">R 28,000<small>/month</small></b><p>Full national coverage for mine-forecast and strategy teams.</p><ul class="ticks"><li>All 12 metals, including platinum and palladium</li><li>All yards, MRA and non-MRA</li><li>Full ITAC permit data</li><li>Priority data updates</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band light">
+    <div class="wrap two">
+      <div class="info"><span class="kicker">For scrap yards</span><h3 style="margin-top:10px;font-size:1.5rem;font-weight:800">Share your volumes, get the benchmarks free.</h3><p class="pp-p" style="color:var(--ink-2)">Yards that contribute their monthly figures get free access to weekly benchmark prices, national monthly totals and ITAC export trends. Your figures stay confidential and only count towards market totals unless you choose to be named.</p></div>
+      <div class="info"><span class="kicker">For data buyers</span><h3 style="margin-top:10px;font-size:1.5rem;font-weight:800">Commodity analysts, forecasters and mining houses.</h3><p class="pp-p" style="color:var(--ink-2)">Tell us who you are and we'll set up a demo account on sample data, then you choose a tier.</p><a class="btn red" href="#contact" style="margin-top:18px">Request early access <span class="arr">→</span></a></div>
+    </div>
+  </section>
+</article>
+
+<!-- TerraQ ESG -->
+<article class="ppage" id="pg-esg" hidden>
+  <header class="pp-hero">
+    <div class="bg"><img src="img/control-room.jpg" alt=""></div>
+    <div class="wrap">
+      <a class="back" href="#products">← All products</a>
+      <span class="status dark" style="--c:var(--amber)"><i></i>In development · demo available</span>
+      <h1>TerraQ <em>ESG</em></h1>
+      <p class="pp-lede">Every reported number, traced to the document that proves it. TerraQ ESG links your licence conditions, the evidence filed against them and your sustainability disclosures in one auditable chain.</p>
+      <div class="btns"><a class="btn red" href="esg/" target="_blank" rel="noopener">Try the interactive demo <span class="arr">→</span></a><a class="btn line" href="#contact">Become a pilot site</a><a class="dl" href="downloads/TerraQ-ESG.pdf" download><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>Download product sheet <small>PDF</small></a></div>
+    </div>
+  </header>
+
+  <section class="band light">
+    <div class="wrap split">
+      <div><span class="kicker">The problem</span><h2 style="margin-top:14px">The report says one thing. Can you prove it<em>?</em></h2></div>
+      <ul class="pains">
+        <li><b>Obligations live in a spreadsheet.</b> Dozens of conditions across the WUL, EA, WML, AEL and SLP, each with its own owner and due date.</li>
+        <li><b>Report numbers are rebuilt every year.</b> Sustainability figures are re-derived from scratch, with no traceable link back to source.</li>
+        <li><b>Assurance becomes a document hunt.</b> When the auditor asks for the evidence behind a figure, someone has to go and find it.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band dark">
+    <div class="wrap showcase">
+      <div class="mock" aria-label="Illustrative assurance chain">
+        <div class="mock-bar"><span>Assurance chain · demo site</span><span>FY2026 Q3</span></div>
+        <svg viewBox="0 0 400 190" style="padding:6px 14px 0">
+          <g font-family="IBM Plex Mono, monospace" font-size="9" fill="#8B95A5"><text x="0" y="12">DISCLOSURE</text><text x="0" y="96">CONDITIONS</text><text x="0" y="176">EVIDENCE</text></g>
+          <g fill="none" stroke-width="1.8">
+            <path d="M120 34 C120 56 100 56 100 76" stroke="#2FB574"/><path d="M120 34 C120 56 170 56 170 76" stroke="#2FB574"/>
+            <path d="M220 34 C220 56 240 56 240 76" stroke="#F0A92E" stroke-dasharray="5 4"/><path d="M320 34 C320 56 310 56 310 76" stroke="#FF4D5E" stroke-dasharray="2 4"/>
+            <path d="M100 100 C100 124 90 124 90 146" stroke="#2FB574"/><path d="M170 100 C170 124 145 124 145 146" stroke="#2FB574"/><path d="M240 100 C240 124 200 124 200 146" stroke="#2FB574"/><path d="M240 100 C240 124 255 124 255 146" stroke="#FF4D5E" stroke-dasharray="2 4"/><path d="M310 100 C310 124 310 124 310 146" stroke="#FF4D5E" stroke-dasharray="2 4"/>
+          </g>
+          <g font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="middle">
+            <rect x="90" y="20" width="60" height="16" rx="8" fill="#16263B" stroke="#2FB574"/><text x="120" y="31" fill="#fff">303-4</text>
+            <rect x="190" y="20" width="60" height="16" rx="8" fill="#16263B" stroke="#F0A92E"/><text x="220" y="31" fill="#fff">303-3</text>
+            <rect x="290" y="20" width="60" height="16" rx="8" fill="#16263B" stroke="#FF4D5E"/><text x="320" y="31" fill="#fff">305-7</text>
+            <rect x="75" y="84" width="50" height="16" rx="3" fill="#16263B" stroke="#3B5376"/><text x="100" y="95" fill="#E4E9F0">WUL 7.4</text>
+            <rect x="145" y="84" width="50" height="16" rx="3" fill="#16263B" stroke="#3B5376"/><text x="170" y="95" fill="#E4E9F0">GN 704</text>
+            <rect x="215" y="84" width="50" height="16" rx="3" fill="#16263B" stroke="#3B5376"/><text x="240" y="95" fill="#E4E9F0">WUL 3.2</text>
+            <rect x="285" y="84" width="50" height="16" rx="3" fill="#16263B" stroke="#3B5376"/><text x="310" y="95" fill="#E4E9F0">AEL 6.1</text>
+            <rect x="75" y="146" width="30" height="16" rx="3" fill="#1F3350" stroke="#3B5376"/><text x="90" y="157" fill="#C9D3E0">E5</text>
+            <rect x="130" y="146" width="30" height="16" rx="3" fill="#1F3350" stroke="#3B5376"/><text x="145" y="157" fill="#C9D3E0">E6</text>
+            <rect x="185" y="146" width="30" height="16" rx="3" fill="#1F3350" stroke="#3B5376"/><text x="200" y="157" fill="#C9D3E0">E1</text>
+            <rect x="240" y="146" width="30" height="16" rx="3" fill="#3A1420" stroke="#FF4D5E"/><text x="255" y="157" fill="#FFB3BB">E2</text>
+            <rect x="295" y="146" width="30" height="16" rx="3" fill="#3A1420" stroke="#FF4D5E"/><text x="310" y="157" fill="#FFB3BB">E10</text>
+          </g>
+        </svg>
+        <div class="cap" style="padding:0 14px 12px">Demonstration data, fictional site</div>
+      </div>
+      <div>
+        <span class="kicker">How it works</span><h2 style="margin-top:14px">One chain, from disclosure to document<em>.</em></h2>
+        <ul class="steps" style="margin-top:20px">
+          <li><span><b>Obligations register.</b> Every condition with its owner, frequency, due date and the verbatim licence clause behind it.</span></li>
+          <li><span><b>Evidence library.</b> Lab certificates, logger exports, surveys and registers filed against the conditions they serve, with accreditation expiry tracked.</span></li>
+          <li><span><b>Disclosure rollup.</b> GRI, SASB, ICMM and JSE figures built from that evidence, each showing whether it is provable.</span></li>
+          <li><span><b>Audit trail.</b> An append-only log your assurance provider can read but nobody can edit.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="band light">
+    <div class="wrap">
+      <span class="kicker">Who uses it</span><h2 style="margin-top:14px">Three roles, one source of truth<em>.</em></h2>
+      <div class="assess">
+        <div><h3>SHEQ manager</h3><p>The daily driver. The register, due dates and evidence upload, built for a site office laptop on a weak connection.</p></div>
+        <div><h3>Group sustainability lead</h3><p>Quarterly. The disclosure rollup and the share of reported figures backed by complete evidence, ready for the board.</p></div>
+        <div><h3>Assurance provider</h3><p>Read-only. Click a reported figure and land on the signed document that supports it.</p></div>
+      </div>
+      <div class="chips-row"><span>WUL</span><span>EA</span><span>WML</span><span>AEL</span><span>SLP</span><span>MHSA</span><span>GRI 2021</span><span>SASB EM-MM</span><span>ICMM</span><span>JSE guidance</span></div>
+    </div>
+  </section>
+
+  <section class="band dark">
+    <div class="wrap two">
+      <div class="info"><span class="kicker">Pilot sites</span><h3 style="margin-top:10px;font-size:1.5rem;font-weight:800;color:#fff">We're looking for two or three mines to shape it with us.</h3><p class="pp-p" style="color:var(--steel)">Junior and mid-tier operations that run their obligations in spreadsheets today. Pilot sites get early access and a direct say in what we build next.</p></div>
+      <div class="info"><a class="btn red" href="#contact">Become a pilot site <span class="arr">→</span></a><a class="btn line" href="esg/" target="_blank" rel="noopener" style="margin-top:12px">Try the interactive demo</a></div>
+    </div>
+  </section>
+</article>
+
+</div>
+
+<section class="band contact" id="contact">
+  <div class="bg"><img src="img/pit-dusk.jpg" alt=""></div>
+  <div class="wrap cgrid">
+    <div>
+      <span class="kicker">Get in touch</span>
+      <h2 style="margin-top:14px">Start with your data.</h2>
+      <p class="intro">Tell us about your site, your monitoring or the decision you need to make.</p>
+    </div>
+    <div class="lines">
+      <div class="cline"><span class="k">Email</span><a class="v" href="mailto:info@terraq.co.za" id="v-email">info@terraq.co.za</a><button type="button" data-copy="v-email">Copy</button></div>
+      <div class="cline"><span class="k">Phone</span><a class="v" href="tel:+27815329057" id="v-phone">+27 81 532 9057</a><button type="button" data-copy="v-phone">Copy</button></div>
+      <div class="cline"><span class="k">Office</span><span class="v" id="v-addr">106 Hercules Street, Roseville, Pretoria</span><button type="button" data-copy="v-addr">Copy</button></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <img src="terraq-logo.png" alt="TerraQ">
+    <span class="tag">Intelligence beneath the surface<em>.</em></span>
+    <small>© 2026 TerraQ (Pty) Ltd · Reg. 2026/128456/07 · B-BBEE Level 1</small>
+  </div>
+</footer>
+
+<script>
+// Header turns solid after the hero
+const bar=document.getElementById('top-bar');
+const onScroll=()=>bar.classList.toggle('solid',scrollY>40);onScroll();addEventListener('scroll',onScroll,{passive:true});
+
+// Mobile menu
+const menuBtn=document.getElementById('menuBtn'),nav=document.getElementById('nav');
+menuBtn.addEventListener('click',()=>{const o=nav.dataset.open==='true';nav.dataset.open=String(!o);menuBtn.setAttribute('aria-expanded',String(!o));bar.classList.add('solid')});
+nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.dataset.open='false';menuBtn.setAttribute('aria-expanded','false')}));
+
+// Ticker loop
+const track=document.getElementById('track');track.innerHTML+=track.innerHTML;
+
+// Product tabs
+const tabs=[...document.querySelectorAll('.pill')];
+function select(tab,focus){
+  tabs.forEach(t=>{const on=t===tab;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;document.getElementById(t.getAttribute('aria-controls')).hidden=!on});
+  if(focus)tab.focus();
+}
+tabs.forEach((t,i)=>{
+  t.addEventListener('click',()=>select(t));
+  t.addEventListener('keydown',e=>{
+    let j=null;if(e.key==='ArrowRight')j=(i+1)%tabs.length;if(e.key==='ArrowLeft')j=(i-1+tabs.length)%tabs.length;
+    if(e.key==='Home')j=0;if(e.key==='End')j=tabs.length-1;
+    if(j!==null){e.preventDefault();select(tabs[j],true)}
+  });
+});
+// Router: home view, product pages (#product-aquawatch etc.) and in-page anchors
+const homeView=document.getElementById('home-view'),pages=[...document.querySelectorAll('.ppage')];
+function showPage(pg){homeView.hidden=!!pg;pages.forEach(p=>p.hidden=p!==pg)}
+function route(){
+  const h=location.hash.slice(1);
+  if(h.startsWith('product-')){const pg=document.getElementById('pg-'+h.slice(8));if(pg){showPage(pg);scrollTo(0,0);return}}
+  const tab=document.getElementById('t-'+h);
+  if(tab){showPage(null);select(tab);document.getElementById('products').scrollIntoView();return}
+  const el=h&&document.getElementById(h);
+  if(el){const pg=el.closest('.ppage');if(pg)showPage(pg);else if(homeView.contains(el))showPage(null);el.scrollIntoView();return}
+  showPage(null);
+}
+route();addEventListener('hashchange',route);
+
+// Copy buttons
+document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{
+  const el=document.getElementById(b.dataset.copy);const txt=el.textContent.trim();
+  try{await navigator.clipboard.writeText(txt);b.textContent='Copied'}
+  catch(e){const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected'}
+  setTimeout(()=>b.textContent='Copy',1600);
+}));
+
+// Live contour model in the hero card (marching squares over a drifting field)
+(function(){
+  const cv=document.getElementById('contours');if(!cv)return;const ctx=cv.getContext('2d');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W,H,cols,rows;const cell=8;
+  function size(){const dpr=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;if(!W)return;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);cols=Math.ceil(W/cell)+1;rows=Math.ceil(H/cell)+1}
+  const f=(x,y,t)=>{const u=x/W,v=y/H;return Math.sin(u*4.6+t*.6)*Math.cos(v*3.9-t*.4)+.5*Math.sin((u*8.3-v*5.1)+t*.9)+1.5*Math.exp(-(((u-.68)/.18)**2+((v-.5)/.3)**2))};
+  const levels=[-1,-.6,-.2,.2,.6,1,1.4,1.8];
+  function draw(t){
+    if(!W)return;ctx.clearRect(0,0,W,H);
+    const g=new Float32Array(cols*rows);
+    for(let j=0;j<rows;j++)for(let i=0;i<cols;i++)g[j*cols+i]=f(i*cell,j*cell,t);
+    levels.forEach(L=>{
+      const hi=L>=1.4;ctx.strokeStyle=hi?'rgba(227,23,47,.95)':'rgba(255,255,255,'+(L>0?.6:.35)+')';ctx.lineWidth=hi?1.7:1;ctx.beginPath();
+      for(let j=0;j<rows-1;j++)for(let i=0;i<cols-1;i++){
+        const a=g[j*cols+i],b=g[j*cols+i+1],c=g[(j+1)*cols+i+1],d=g[(j+1)*cols+i];
+        const k=(a>L?8:0)|(b>L?4:0)|(c>L?2:0)|(d>L?1:0);if(k===0||k===15)continue;
+        const x=i*cell,y=j*cell;
+        const T=[x+cell*(L-a)/(b-a),y],R=[x+cell,y+cell*(L-b)/(c-b)],B=[x+cell*(L-d)/(c-d),y+cell],Lf=[x,y+cell*(L-a)/(d-a)];
+        const s=(p,q)=>{ctx.moveTo(p[0],p[1]);ctx.lineTo(q[0],q[1])};
+        switch(k){case 1:case 14:s(Lf,B);break;case 2:case 13:s(B,R);break;case 3:case 12:s(Lf,R);break;case 4:case 11:s(T,R);break;case 5:s(Lf,T);s(B,R);break;case 6:case 9:s(T,B);break;case 7:case 8:s(Lf,T);break;case 10:s(T,R);s(Lf,B);break}
+      }
+      ctx.stroke();
+    });
+    // borehole markers
+    [[.2,.3],[.45,.7],[.8,.25],[.7,.62]].forEach(([u,v])=>{ctx.fillStyle='#4FA3E0';ctx.beginPath();ctx.arc(u*W,v*H,3.2,0,7);ctx.fill()});
+  }
+  size();addEventListener('resize',()=>{size();draw(0)});
+  if(reduce){draw(0);return}
+  let vis=true;new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(cv);
+  const t0=performance.now();(function loop(now){if(vis)draw((now-t0)/8000);requestAnimationFrame(loop)})(t0);
+})();
+</script>
+</body>
+</html>
